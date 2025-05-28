@@ -1,0 +1,125 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Les points de vente:</h5>  <br>            
+  
+<!--FENETRE FLOTTANTE-->
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success" >Nouveau</button></div><br>
+  <!-- Fenêtre flottante -->
+     
+
+<form method="POST" >
+
+
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" on="getLocation()" >
+
+    <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h5>Création de point de vente</h5><br>
+
+      <label>Type point de vente * :</label>
+      <select name="idtype" id="idtype" onchange="getLocation()" required>
+        <option >---------------</option>
+        {% for tpv in typepoints %}
+        <option value="{{tpv.id}}" > {{tpv.libelle}} </option>
+        {% endfor %}
+      </select><br>
+
+      <label>Nom du point de vente *: </label><input type="text" name="nom" class="form-control" onfocus="getLocation()" required><br>
+      <label>Proprietaire *: </label><input type="text" name="proprietaire" class="form-control" required><br>
+      <label>Contact Pro *: </label><input type="text" name="contact_pro" class="form-control" required><br>
+      <label>Gérant: </label><input type="text" name="gerant" ><br>
+      <label>Contact Gérant: </label><input type="text" name="contact_gerant" class="form-control" ><br>
+      <label>Ville *: </label><input type="text" name="ville" class="form-control" required><br>
+      <label>Commune *: </label><input type="text" name="commune" class="form-control" required><br>
+      <label>Quartier *: </label><input type="text" name="quartier" class="form-control" required><br>
+      <label>GPS *: </label><input type="text" name="gps" id="gps" class="form-control" onfocus="getLocation()" required><br>
+
+      <label>Commentaire: </label><textarea type="text" name="commentaire" class="form-control" ></textarea><br>
+
+      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+      </div>
+
+  </div>
+
+</form>
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date de création </B></th>
+        <th><B>Nom</B></th>
+        <th><B>Type</B></th>
+        <th >Propriétaire</th>
+        <th >Contact Pro</th>
+        <th >Gérant</th>
+        <th >Contact Gérant</th>
+        <th >Ville</th>
+        <th >Commune</th>
+        <th >Quartier</th>
+        <th >Coordonnées</th>
+        <th >Commentaire</th>
+
+        <th ></th>
+        <th ><B>Actions</B></th>
+  </tr>
+
+
+    {% for pv in lespv %}
+    <tr>
+            <th scope="row" >{{pv.id}}</th>
+            <th scope="row" >{{pv.datecreation}}</th>
+            <td>{{pv.nom}}</td>
+            <td>{{pv.type_pv_id.libelle}}</td>
+            <td>{{pv.proprietaire}}</td>
+            <td>{{pv.contact_pro}}</td>
+            <td>{{pv.gerant}}</td>
+            <td>{{pv.contact_gerant}}</td>
+            <td>{{pv.ville}}</td>
+            <td>{{pv.commune}}</td>
+            <td>{{pv.quartier}}</td>
+            <td> <a href="https://nominatim.openstreetmap.org/reverse?lat=48.858844&lon=2.294351&format=json">{{pv.gps}}</a></td>
+            <td>{{pv.commentaire}}</td>
+
+            
+        <!--Boutton voir details-->
+           
+
+            <td>
+              <a href=""  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+  <script src="{% static 'assets/js/recup_gps.js' %}"></script>
+
+{%endblock%}
+

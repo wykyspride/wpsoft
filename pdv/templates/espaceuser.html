@@ -1,0 +1,119 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Mon portefeuil de ventes:</h5><br><br>            
+
+
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
+  <!-- Fenêtre flottante -->
+   <!--FENETRE FLOTTANTE-->
+<form method="POST">
+  {% csrf_token%}
+
+  <div id="myModal" class="modal" >
+      <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h4>Création de vente</h4><br>
+
+      <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Détail du point de vente:</h5>          
+       <label>Le point de vente :</label>
+      <select name="idpv" id="idpv"  onclick="insererChampspv()">
+        <option >---------------</option>
+        {% for pv in lespv %}
+        <option value="{{pv.id}}" > {{pv.nom}} </option>
+        {% endfor %}
+      </select><br>
+
+          <!--LES DETAILS DU POINT DE VENTE CHOISI-->
+          <label>Nom du point de vente: </label><input type="text" name="nompv" id="nompv" class="form-control" disabled><br>
+          <label>Proprietaire: </label><input type="text" name="proprietaire" id="proprietaire" class="form-control" disabled><br>
+          <label>Contact Pro: </label><input type="text" name="contact_pro" id="contact_pro" class="form-control" disabled ><br>
+          <label>Gérant: </label><input type="text" name="gerant"  id="gerant" disabled><br>
+          <label>Contact Gérant: </label><input type="text" name="contact_gerant" id="contact_gerant" class="form-control" disabled ><br>
+          <label>Ville: </label><input type="text" name="ville" class="form-control" id="ville" disabled ><br>
+          <label>Commune: </label><input type="text" name="commune" id="commune" class="form-control" disabled><br>
+          <label>Quartier: </label><input type="text" name="quartier" id="quartier" class="form-control" disabled ><br>
+          <label>GPS: </label><input type="text" name="gps" id="gps" class="form-control" disabled><br>
+          
+          <label>Date: </label><input type="Date" name="datev" id="datev" class="form-control" ><br> 
+          <label>Commentaire: </label><textarea type="text" name="commentaire" class="form-control" ></textarea><br>
+
+      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+      </div>
+
+  </div>
+</form>
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date </B></th>
+        <th><B>Point de vente</B></th>
+        <th><B>Montant</B></th>
+        <th><B>Remise</B></th>
+        <th ><B>Net à Payer</B></th>
+        <th ><B>Observation</B></th>
+
+        <th ></th>
+        <th ><B>Actions</B></th>
+        <th ></th>
+  </tr>
+
+{% for mavente in mesventes %}
+    
+    <tr>
+            <th scope="row" >{{mavente.id}}</th>
+            <td>{{mavente.datevente}}</td>
+            <td>{{mavente.pointv.nom}}</td>
+            <th>{{mavente.montant}}</th>
+            <th>{{mavente.remise}}</th>
+            <td>{{mavente.net_payer}}</td>
+            <td>{{mavente.commentaire}}</td>
+
+        <!--Boutton voir details-->
+            <td >  
+              <a href="lignevente/{{mavente.id}}" title="Voir les details">
+                <svg id="i-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" >
+                <circle cx="17" cy="15" r="1" />
+                <circle cx="16" cy="16" r="6" />
+                <path d="M2 16 C2 16 7 6 16 6 25 6 30 16 30 16 30 16 25 26 16 26 7 26 2 16 2 16 Z" />
+                </svg>
+              </a>
+            </td>
+
+            <td>
+              <a href="/lignevente/{{mavente.id}}"  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+  <script src="{% static 'assets/js/vente.js' %}"></script>
+
+{%endblock%}
+

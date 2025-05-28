@@ -1,0 +1,145 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--FENETRE FLOTTANTE-->
+<form method="POST">
+    {% csrf_token %}
+  <div id="myModal" class="modal" >
+      <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h4>Création de ligne de vente</h4><br>
+
+          <!--CHOIX D'UN PRODUIT-->
+          <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Détail du produit:</h5>           
+          <label>Le produit :</label>
+          <select name="idprod" id="idprod" onclick="insererChampsprod()" onchange="calcultoto()">
+            <option >---------------</option>
+            {% for prod in lesprod %}
+            <option value="{{prod.id}}" > {{prod.nom}} </option>
+            {% endfor %}
+          </select><br>
+
+          <!--LES DETAILS DU PRODUIT CHOISI-->
+          <label>Marque: </label><input type="text" name="nom" id="marque" class="form-control" disabled ><br>
+          <label>Catégorie: </label><input type="text" name="nom" id="cat" class="form-control" disabled><br>
+          <label>Prix Unitaire: </label><input type="number" name="prixu" id="prixu"  class="form-control" ><br>
+          <label>Qte stock : </label><input type="text" name="qtestock" id="qtestock"   class="form-control" disabled><br>
+          <label>Qte seuil : </label><input type="text" name="seuil" id="seuil" class="form-control" disabled ><br>
+          <label>Couleur : </label><textarea type="text" name="couleur" id="couleur" class="form-control" disabled ></textarea><br>
+
+
+          <!--LES DETAILS DE VENTE-->
+        <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Details de vente:</h5>        
+          <label>Date: </label><input type="type" name="datev" id="datev" class="form-control" placeholder="{{lavente.datevente}}"><br> 
+          <div style="display: none;"><label>Ancien Total: </label><input type="number" name="old_total" id="old_total" class="form-control" value="{{lavente.montant}}"><br></div> 
+          <div style="display: none;"><label>Ancien Remise: </label><input type="number" name="old_remise" id="old_remise" class="form-control" value="{{lavente.remise}}"><br> </div>
+          <div style="display: none;"><label>Ancien Net à payer: </label><input type="number" name="old_np" id="old_netpayer" class="form-control" value="{{lavente.net_payer}}"><br> </div>
+
+          <label>Qte : </label><input type="number" name="qte" id="qte" class="form-control" oninput="calcultoto()" required><br>
+          <label>Montant Total : </label><input type="number" name="montant" id="montant" class="form-control" readonly><br>
+          <label>Remise : </label><input type="number" name="remise"  id="remise" class="form-control" oninput="calcultoto() " value="0" ><br>
+          <label>Net à payer : </label><input type="number" name="netpayer" id="netpayer" class="form-control" readonly ><br>
+
+
+         <div align="right" style="margin-right: 5%;">
+            <button title="Inserer dans le tableau"  id="click"  class="btn btn-floating" style="background-color: rgb(17, 59, 59); color: #ed1c24;" onclick="insererCellules()">
+            <!--<button title="Inserer dans le tableau" onclick="insererCellules()" id="click" type="submit"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1z"/>
+            <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg>
+            </button>
+          </div>
+
+
+
+
+        <!--TABLEAU RECAPITULATIF-->
+        <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Tableau recapitulatif:</h5> 
+                        
+
+                        <table class="table" id="table_details" >
+                            <tr style="background-color: #dcd8d8;">
+                                <th ><B>N°</B></th>
+                                <th ><B>Description</B></th>
+                                <th ><B>Marque</B></th>
+                                <th ><B>Catégorie</B></th>
+                                <th ><B>Qte</B></th>
+                                <th ><B>Prix U</B></th>
+                                <th ><B>Montant</B></th>
+                                <th ><B>Remise</B></th>
+                                <th ><B>Net à Payer</B></th>
+                                <th ></th>
+
+                            </tr>
+                            
+                            <tbody id="table_body">
+                            </tbody>
+
+                            {% for ligne in leslignes%}
+
+
+                            <tr>
+                                <th scope="row"><B>{{ligne.id}}</B></th>
+                                <td >{{ligne.produit.nom}}</td>
+                                <td >{{ligne.produit.marque.libelle}}</td>
+                                <td >{{ligne.produit.cat.libelle}}</td>
+                                <td >{{ligne.qte}}</td>
+                                <td >{{ligne.prixu}}</td>
+                                <td >{{ligne.prix_total}}</td>
+                                <td >{{ligne.remise}}</td>
+                                <td >{{ligne.net_payer}}</td>
+
+
+                                
+                                <!--Boutton voir details-->
+                            
+                                <td  title="Supprimer">
+                                        <a class="btn-floating" href="/supligneprof/{{lp.id}}" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+                                        <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+                                    </svg></a>
+                                </td>
+                    
+                            </tr>
+
+                            {% endfor %}
+
+                         </table>
+
+
+
+
+                  <!--Bloc 2 des details devis-->
+            <div class="c2" align="right">
+                <div class="divinfosup" style="width: 40%; " align="left" >
+                    <div >
+                        <label >Sous Total :</label><input name="p_soustotal" class="form-control" type="number" id="p_soustotal" style="text-align: right;" placeholder="{{lavente.montant}}" readonly />
+                    </div>
+
+                    <div>
+                        <label>Total Remise:</label><input name="p_remise" type="number" class="form-control" id="p_remise" placeholder="{{lavente.remise}}" style="text-align: right;" readonly/>
+                    </div>
+
+                    <div>
+                        <label>Total Net à payer:</label><input name="p_netapayer" type="number" class="form-control" id="p_netapayer" placeholder="{{lavente.net_payer}}" style="text-align: right;" readonly />
+                    </div>
+                   
+                </div><br>
+                </form>
+
+                <div align="Right" style="margin-top: 10px; margin-right: 40px;"><a href="/etatvente/{{lavente.id}}" class="btn btn-primary" type="submit" style="background-color: rgb(17, 59, 59);">Valider</a></div>
+
+            </div><!--Fin Bloc 2 des details proprietaire-->
+
+      </div>
+
+  </div>
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/vente.js' %}"></script>
+  <script src="{% static 'assets/js/fen_flottant_modif.js' %}"></script>
+
+
+{%endblock%}
+

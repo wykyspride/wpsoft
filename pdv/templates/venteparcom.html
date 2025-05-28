@@ -1,0 +1,52 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Ventes par commercial:</h5><br><br>            
+
+
+
+<!-- Bouton pour ouvrir la fenêtre -->
+<select name="idcom" id="idcom"  onchange="venteparcom()">
+            <option >---------------</option>
+            {% for com in lescom %}
+            <option value="{{com.id}}" > {{com.first_name}} </option>
+            {% endfor %}
+          </select><br><br>
+   <!--FENETRE FLOTTANTE-->
+
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table" id="table_details"  >
+
+        <thead>
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date </B></th>
+        <th><B>Commercial </B></th>
+        <th><B>Point de vente</B></th>
+        <th><B>Montant</B></th>
+        <th><B>Remise</B></th>
+        <th ><B>Net à Payer</B></th>
+        <th ><B>Observation</B></th>
+  </tr>  
+  </thead>
+
+  <tbody id="tbody">
+    <!-- lignes dynamiques ici -->
+  </tbody>
+  
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/vente.js' %}"></script>
+  <script src="{% static 'assets/js/stativente.js' %}"></script>
+
+{%endblock%}
+

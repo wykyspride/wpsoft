@@ -1,0 +1,115 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Les produits:</h5>  <br>            
+
+
+<!--FENETRE FLOTTANTE-->
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
+  <!-- Fenêtre flottante -->
+   
+<form method="POST">
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" >
+     
+    <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h5>Création de produit:</h5><br>
+
+      <label>La marque *:</label>
+      <select name="idmarque" id="idmarque"  onchange="recupcats()" required >
+        <option >---------------</option>
+        {% for mq in lesmarques %}
+        <option value="{{mq.id}}" > {{mq.libelle}} </option>
+        {% endfor %}
+      </select><br>
+
+      <label>La catégorie *:</label>
+      <select name="idcat" id="idcat" required >
+        <option >---------------</option>
+      </select><br>
+
+      <label>Nom du produit *: </label><input type="text" name="nom" id="nom" class="form-control" required><br>
+      <label>Prix Unitaire *: </label><input type="text" name="prixu"  class="form-control" required><br>
+      <label>Qte : </label><input type="number" name="qte"  class="form-control"><br>
+      <label>Qte seuil : </label><input type="number" name="seuil" class="form-control" ><br>
+      <label>Couleur : </label><input type="text" name="couleur" class="form-control" ><br>
+      <label>Description: </label><textarea type="text" name="description"  class="form-control"></textarea><br>
+      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+
+      </div>
+
+  </div>
+
+</form>
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date de création </B></th>
+        <th><B>Nom</B></th>
+        <th><B>Marque</B></th>
+        <th ><B>Catégorie</B></th>
+        <th ><B>Qte Pro</B></th>
+        <th ><B>Qte Seuil</B></th>
+        <th ><B>Couleur</B> </th>
+        <th ><B>Descritpion</B></th>
+
+        <th ></th>
+        <th ><B>Actions</B></th>
+  </tr>
+
+
+    {% for prod in lesprods %}
+    <tr>
+            <th scope="row" >{{prod.id}}</th>
+            <th scope="row" >{{prod.datecreation}}</th>
+            <td>{{prod.nom}}</td>
+            <td>{{prod.marque.libelle}}</td>
+            <td>{{prod.cat.libelle}}</td>
+            <td>{{prod.qte}}</td>
+            <td>{{prod.seuil}}</td>
+            <td>{{prod.couleur}}</td>
+            <td>{{prod.description}}</td>
+            
+        <!--Boutton voir details-->
+           
+
+            <td>
+              <a href=""  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+  <script src="{% static 'assets/js/recup_cat_par_marque.js' %}"></script>
+
+
+{%endblock%}
+

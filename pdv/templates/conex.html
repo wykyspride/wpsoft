@@ -1,0 +1,31 @@
+{% load static%}
+<link  rel="stylesheet" type="text/css" href="{% static 'assets/css/conex.css'%}" />
+    <img src="{% static 'assets/img/logo_n.jpeg'%}" alt="" style="height: 100px; height: 100px;">    
+
+<div style="background-image: url(static/assets/img/hero-bg.jpg);" >
+<div class="wrapper" >
+
+    <div class="logo">
+        <img src="{% static 'assets/img/logo3A.png'%}" alt="">
+    </div><br>
+    <div class="text-center mt-4 name"  >
+        <!--Twitter-->
+    </div>
+
+    <form class="p-3 mt-3" method="POST">
+        {% csrf_token %}
+        <div class="form-field d-flex align-items-center" >
+            <span class="far fa-user"></span>
+            <input type="text" name="admail" id="admail" placeholder="Login"> 
+        </div><br>
+        <div class="form-field d-flex align-items-center">
+            <span class="fas fa-key"></span>
+            <input type="password" name="password" id="pwd" placeholder="Mot de passe">
+        </div><br>
+        <button class="btn mt-3">Connecter</button>
+    </form>
+    <div class="text-center fs-6" align="Center"><br>
+        <a href="#">Mot de passe oublié?</a>
+    </div>
+</div>
+</div>

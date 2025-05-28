@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Fenêtre Flottante</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="{% static 'assets/css/adtypepoint.css' %}" type="text/css" rel="stylesheet"/>
+
+</head>
+<body>
+
+  <!-- Bouton pour ouvrir la fenêtre -->
+  <button id="openModal">Ouvrir la fenêtre</button>
+
+  <!-- Fenêtre flottante -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Titre de la fenêtre</h2>
+      <p>Contenu de la fenêtre flottante.</p>
+    </div>
+  </div>
+  
+  <!--Scripts pour afficher la fenetre de saisie flottante-->
+ <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+</body>
+</html>
+
+
+
+

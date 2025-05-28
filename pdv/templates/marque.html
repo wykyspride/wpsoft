@@ -1,0 +1,83 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Marques de produit :</h5>  <br>            
+
+
+<!--FENETRE FLOTTANTE-->
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
+  <!-- Fenêtre flottante -->
+   
+<form method="POST">
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" >
+     
+    <div class="modal-content" style="width: 20%;">
+      <span class="close">&times;</span>
+      <h5>Création de marque de produit :</h5><br>
+
+      <label>Libelle *: </label><input type="text" name="libelle" required><br>
+      
+      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+      </div>
+
+  </div>
+
+</form>
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date de création </B></th>
+        <th><B>Libelle</B></th>
+
+        <th ></th>
+        <th ><B>Actions</B></th>
+  </tr>
+
+
+    {% for mq in lesmarques %}
+    <tr>
+            <th scope="row" >{{mq.id}}</th>
+            <th scope="row" >{{mq.datecreation}}</th>
+            <td>{{mq.libelle}}</td>
+            
+        <!--Boutton voir details-->
+           
+
+            <td>
+              <a href=""  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+
+{%endblock%}
+

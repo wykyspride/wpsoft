@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <!--{% load static %}-->
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BILAN VENTE</title>
+
+   
+  </head>
+
+  <body >
+<!--Entete du document-->
+<table style=" padding: 5px; font-family: 'Trebuchet MS';" >
+
+  <tr >
+    <th >
+      <div  align="left">
+
+        <img height="50px" width="50px" src=""/><br>
+        <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><B>POINT DE VENTE</B></label></div>
+
+        <label ><B>Nom :</B>&nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp 13 bp 969 Abidjan 13</label><br>
+        <label ><B>Ville :</B> &nbsp RC00001/ABJ</label><br>
+        <label ><B>Commune :</B> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp CC47939/PARIS01 </label><br>
+        <label ><B>Quartier :</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp +225 07 49 43 37 50</label><br>
+        <label ><B>Tel:</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Cocody, Angré 8e Tranche</label><br>
+     
+      </div>
+    </th>
+
+      <th>
+        <div align="left">
+          <img height="50px" width="50px" src=""/><br>
+
+          <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><B>{{lavente.pointv.nom}}</B></label></div>
+          <label ><B>Nom:</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{lavente.pointv.nom}}</label><br>
+          <label ><B>Ville:</B>&nbsp &nbsp &nbsp &nbsp {{lavente.pointv.ville}}</label><br>
+          <label ><B>Commune:</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{lavente.pointv.commune}}</label><br>
+          <label ><B>Quartier:</B>&nbsp &nbsp &nbsp &nbsp {{lavente.pointv.quartier}}</label><br>
+          <label ><B>Tel:</B>&nbsp &nbsp &nbsp &nbsp {{lavente.pointv.contact_gerant}}</label><br>
+
+        </div>
+      </th>
+  </tr>
+</table><br>
+
+<table style=" padding: 5px; font-family: 'Trebuchet MS';" >
+
+  <tr >
+    <th >
+      
+        <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><u><B>FACTURE PROFORMA</B></u></label></div>
+          <div align="left">
+          <label ><B>N°:&nbsp &nbsp &nbsp &nbsp &nbsp</B> {{lavente.id}}</label><br>
+          <label ><B>Date: &nbsp &nbsp &nbsp</B>{{lavente.datevente}} </label><br>
+          <label ><B>Delais:</B> &nbsp {{lavente.user.first_name}}</label>
+          </div><br>
+    </th>
+
+      <th>  
+        <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><u><B>INFORMATION DE PAIEMENT</B></u></label></div>
+          <div align="left">
+          <label ><B>Net à payer:&nbsp &nbsp &nbsp &nbsp &nbsp</B> {{lavente.net_payer}} &nbsp FCFA</label><br>
+          <label ><B>Date : &nbsp &nbsp &nbsp</B>{{lavente.datevente}} </label><br>
+          </div><br>
+      </th>
+  </tr>
+</table><br>
+
+
+  <!--Contenu du document-->
+ 
+  <table style=" border: 1px solid black; padding: 5px;" >
+      <tr style="background-color: black; color: rgb(251, 251, 251);">
+          <th style="width: 5%;">N°</th>
+          <th style="width: 30%;">Description</th>
+          <th >Prix Unitaire</th>
+          <th  >Qte</th>
+          <th >Montant</th>
+          <th  >Remise</th>
+          <th  >Net à payer</th>
+      </tr>
+  
+  
+      {% for ligne in leslignes %}
+       <tr >
+              <th scope="row" >{{ligne.id}}</th>
+              <td >{{ligne.produit.nom}}</td>
+              <td >{{ligne.prixu}}</td>
+              <td>{{ligne.qte}}</td>
+              <td>{{ligne.prix_total}}</td>
+              <td>{{ligne.remise}}</td>
+              <td>{{ligne.net_payer}}</td>
+       </tr>
+          {% endfor %}
+    </table><br><br><br>
+
+      <!--Table Bilan-->
+
+      <table style=" padding: 5px; font-family: 'Trebuchet MS';" >
+        <tr >
+            <th>
+              <div style="font-family: 'Trebuchet MS'; background-color: black ; color: white;">
+              <label ><u>OBSERVATION:</u></label><br>
+              {{lavente.commentaire}}
+            </div>
+
+            </th>
+
+            <th >
+              <div align="left">
+                <label ><u>Total Vente:       &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp    {{lavente.montant}}</u></label><br>
+                <label ><u>Total Remise:     &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp{{lavente.remise}}</u></label><br>
+                <label id="netapayer"><u>Net à Payer:   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nb   {{lavente.net_payer}}</u></label>
+                <div align="center" style="background-color:#8e8a8a ;"><B>{{netenletre}}  &nbsp Francs CFA</B></div>
+
+              </div><br>
+            </th>
+
+        </tr>
+      </table><br><br><br><br><br><br><br><br>
+
+
+<!--SIGNATURE-->
+      
+<table style=" padding: 5px; font-family: 'Trebuchet MS';" >
+
+  <tr >
+    <th >
+        <div align="center" style="font-family: 'Trebuchet MS'; "><label ><u><B>Pour le point de vente</B></u></label></div>
+    </th>
+  </tr>
+</table><br>
+
+    </body>
+
+
+  </html>
+

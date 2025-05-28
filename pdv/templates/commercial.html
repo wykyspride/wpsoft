@@ -1,0 +1,125 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Les Commerciaux/Vendeurs:</h5>  <br>            
+
+
+<!--FENETRE FLOTTANTE-->
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
+  <!-- Fenêtre flottante -->
+   
+<form method="POST">
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" >
+     
+    <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h5>Création de commercial</h5><br>
+      
+          <label>Profil *: </label>
+          <select name="profil" class="form-control" required>
+                <option> Commercial</option>
+                <option> Administrateur</option>
+          </select><br>
+
+          <label>Zone de couverture *: </label>
+          <select name="zonecouv"  class="form-control" required>
+            <option> ----------</option>
+            {% for zone in leszones %}
+            <option value="{{zone.id}}">{{zone.nom}}</option>
+            {% endfor %}
+          </select><br>
+
+      <label>Nom complet *: </label><input type="text" name="nom" class="form-control" required><br>
+      <label>Login *: </label><input type="text" name="login" class="form-control" required ><br>
+      <label>mot de passe *: </label><input type="password" name="mdp" class="form-control" required ><br>
+      <label>Date de Naisssance: </label><input type="date" name="datenaiss" class="form-control" ><br>
+      <label>Lieu de Naissance: </label><input type="text" name="lieunaiss" class="form-control" ><br>
+      <label>Lieu de Residence: </label><input type="text" name="lieuresidence" class="form-control" ><br>
+      <label>N° Pièce: </label><input type="text" name="cni" class="form-control" ><br>
+      <label>Adresse Mail: </label><input type="text" name="adressemail" class="form-control" ><br>
+      <label>Contact: </label><input type="text" name="contact" class="form-control" maxlength="10" ><br>
+      <label>Photo: </label><input type="file" name="photo" class="form-control" ><br>
+      
+      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+      </div>
+
+  </div>
+
+</form>
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date de création </B></th>
+        <th><B>Nom</B></th>
+        <th><B>Login</B></th>
+        <th><B>Date de Naisssance </B></th>
+        <th><B>Lieu de Naissance </B></th>
+        <th><B>Lieu de Residence </B></th>
+        <th><B>Zone de couverture</B></th>
+        <th><B>N° CNI</B></th>
+        <th ><B>Adresse Mail</B></th>
+        <th><B>Contact</B></th>
+        <th><B>Photo</B></th>
+        <th ></th>
+        <th ><B>Actions</B></th>
+  </tr>
+
+
+    {% for com in lescommercio %}
+    <tr>
+            <th scope="row" >{{com.id}}</th>
+            <th scope="row" >{{com.datecreation}}</th>
+            <td>{{com.nom}}</td>
+            <td>{{com.login}}</td>
+            <td>{{com.datenaiss}}</td>
+            <td>{{com.lieunaiss}}</td>
+            <td>{{com.lieuresidence}}</td>
+            <td>{{com.zonecouv.nom}}</td>
+            <td>{{com.cni}}</td>
+            <td>{{com.adressemail}}</td>
+            <td>{{com.contact}}</td>
+            <td><img src="{{com.photo.path}}", width=20 height=20></img></td>
+            
+            
+            
+        <!--Boutton voir details-->
+           
+
+            <td>
+              <a href=""  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+
+{%endblock%}
+
