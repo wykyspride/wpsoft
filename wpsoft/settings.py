@@ -17,9 +17,15 @@ SECRET_KEY = 'django-insecure-hd3tc!m)i^ks^#_%5w+&rj99neq(&6@ve%&-^h4o7b(ovko5ku
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CORS_ALLOW_ALL_ORIGINS = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wykys.pythonanywhere.com', '127.0.0.1']
 
+
+# Allow specific domain
+CORS_ALLOWED_ORIGINS = [
+    "https://wykys.pythonanywhere.com",
+]
 
 # Application definition
 
@@ -32,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pdv',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -42,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'wpsoft.urls'
