@@ -1,4 +1,4 @@
-from .serializers import apicatparmarqueserializer, api_detaail_produit_serializer, api_detaail_pointvente_serializer, apivente_serializer
+from .serializers import apicatparmarqueserializer, api_detaail_produit_serializer, api_detaail_pointvente_serializer, apivente_serializer, apilignev_serializer
 from .models import cat_prod, produit, pointv
 from rest_framework import viewsets
 
@@ -21,3 +21,8 @@ class api_details_pointvente_viewset(viewsets.ModelViewSet):
 #API de vente
 class apivente_viewset(viewsets.ModelViewSet):
     serializer_class=apivente_serializer
+
+
+#API de ligne vente
+class apilignev_viewset(viewsets.ModelViewSet):
+    serializer_class=apilignev_serializer

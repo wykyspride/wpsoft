@@ -4,14 +4,17 @@
 {%load static%}
 
 <!--TITRE PAGE-->
-<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Ventes périodiques:</h5><br><br>            
+<br><h5 style="margin-left: 2%; color: #ed1c24; font-family:'Trebuchet MS';">Ventes par point de vente:</h5><br><br>            
 
 
 
 <!-- Bouton pour ouvrir la fenêtre -->
-<label>Du : </label><input type="date" name="du" id="du" class="form-control" onchange=ventepriodique() style="width: 45%;">
-<label>Au : </label><input type="date" name="au" id="au" class="form-control" onchange=ventepriodique() style="width: 45%;"><br>
-
+<select name="idpv" id="idpv"  onchange="venteparpv()">
+            <option >---------------</option>
+            {% for pv in lespv %}
+            <option value="{{pv.id}}" > {{pv.nom}} </option>
+            {% endfor %}
+          </select><br><br>
    <!--FENETRE FLOTTANTE-->
 
 
@@ -19,7 +22,9 @@
 
   <div class="tableinfo" >
     <table class="table" id="table_details"  >
+
         <thead>
+        
       <tr style="background-color: #f1f1f1;">
         <th><B >N°</B></th>
         <th><B>Date </B></th>
@@ -30,10 +35,12 @@
         <th ><B>Net à Payer</B></th>
         <th ><B>Observation</B></th>
   </tr>  
-  </thead>  
-    <tbody>
+  </thead>
+
+  <tbody id="tbody">
     <!-- lignes dynamiques ici -->
   </tbody>
+  
     </table>
   </div>
 

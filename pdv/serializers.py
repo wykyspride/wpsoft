@@ -1,5 +1,5 @@
 from rest_framework import routers, serializers, viewsets
-from pdv.models import cat_prod, produit, pointv, vente
+from pdv.models import cat_prod, produit, pointv, vente, ligne_vente
 
 
 #API les categorie par marque
@@ -25,4 +25,11 @@ class api_detaail_pointvente_serializer(serializers.ModelSerializer):
 class apivente_serializer(serializers.ModelSerializer):
     class Meta:
         model=pointv
+        fields='__all__'
+
+
+#API lignes  de vente
+class apilignev_serializer(serializers.ModelSerializer):
+    class Meta:
+        model=ligne_vente
         fields='__all__'

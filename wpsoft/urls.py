@@ -1,10 +1,10 @@
 
 from django.contrib import admin
 from django.urls import path,include
-from pdv.views import home, conex,deconex,venteparcom, zonecouve,etatvente,stativente, apivente, espaceuser,maquette, adtypepoint,typepointvente,pointdevente,marqueprod,catprod, prod, apicatparmarque, commerciaux, apidetailprod, apidetailpoitv, lignevente
+from pdv.views import home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, zonecouve,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,typepointvente,pointdevente,marqueprod,catprod, prod, apicatparmarque, commerciaux, apidetailprod, apidetailpoitv, lignevente
 from django.conf import settings
 from django.conf.urls.static import static
-from pdv.api import apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset
+from pdv.api import apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset
 from rest_framework.routers import DefaultRouter 
 
 
@@ -14,6 +14,7 @@ router.register(r'apicatparmarque',apicatparmarqueviewset,basename='apicatparmar
 router.register(r'apidetailprod',api_details_produit_viewset,basename='apidetailprod')
 router.register(r'apidetailpoitv',api_details_pointvente_viewset,basename='apidetailpoitv')
 router.register(r'apivente',apivente_viewset,basename='apivente')
+router.register(r'apilignev',apilignev_viewset,basename='apilignev')
 
 
 urlpatterns = [
@@ -24,6 +25,7 @@ urlpatterns = [
     path('apidetailpoitv',apidetailpoitv, name="apidetailpoitv"),
     path('apicatparmarque/',apicatparmarque, name="apicatparmarque"),
     path('apivente/',apivente, name="apivente"),
+    path('apilignev/',apilignev, name="apilignev"),
 
     #path('apicatparmarque', include(router.urls)),
 
@@ -42,7 +44,10 @@ urlpatterns = [
     path('zonecouve',zonecouve, name="zonecouve"),
     path('etatvente/<int:idvente>', etatvente, name="etatvente"),
     path('stativente',stativente, name="stativente"),
-    path('venteparcom',venteparcom, name="venteparcom")
+    path('venteparcom',venteparcom, name="venteparcom"),
+    path('venteparpv',venteparpv, name="venteparpv"),
+    path('venteparmarque',venteparmarque, name="venteparmarque"),
+    path('venteparcat',venteparcat, name="venteparcat"),
 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

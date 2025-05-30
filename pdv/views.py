@@ -223,9 +223,17 @@ def apivente(request):
     data=vente.objects.all()
     datalist=[]
     for i in data:
-        datalist.append({'id':i.id, "user_id":i.User_id,"user_name":i.User.first_name, "datevente":i.datevente, "pointv_id":i.pointv.nom, "montant":i.montant, "remise":i.remise, "net_payer":i.net_payer, "commentaire":i.commentaire})
+        datalist.append({'id':i.id, "user_id":i.User_id,"user_name":i.User.first_name, "datevente":i.datevente , "idpointv":i.pointv_id, "pointv_id":i.pointv.nom, "montant":i.montant, "remise":i.remise, "net_payer":i.net_payer, "commentaire":i.commentaire})
     return JsonResponse(datalist, safe=False)
 
+#API DE RECUPERATION DES LIGNES VENTE 
+    #API
+def apilignev(request):
+    data=ligne_vente.objects.all()
+    datalist=[]
+    for i in data:
+        datalist.append({'id':i.id, "vente_id":i.vente_id_id, "cat_id":i.produit.cat_id, "marque_id":i.produit_id, "lacat":i.produit.cat.libelle, "lamarc":i.produit.marque.libelle, "pointvente":i.vente_id.pointv.nom,"qte":i.qte, "prixu":i.prixu , "prix_total":i.prix_total, "remise":i.remise, "datevente":i.datevente, "produit_id":i.produit.nom, "net_payer":i.net_payer, "comm":i.vente_id.User.first_name})
+    return JsonResponse(datalist, safe=False)
 
 
 
@@ -331,3 +339,24 @@ def venteparcom(request):
     lescom=User.objects.all()
     context={'lescom':lescom}
     return render(request, "venteparcom.html", context)
+
+
+#VENTES PAR POINT DE VENTE
+def venteparpv(request):
+    lespv=pointv.objects.all()
+    context={'lespv':lespv}
+    return render(request, "venteparpointvente.html", context)
+
+
+#VENTES PAR MARQUES
+def venteparmarque(request):
+    lesmarques=marque_prod.objects.all()
+    context={'lesmarques':lesmarques}
+    return render(request, "venteparmarque.html", context)
+
+
+#VENTES PAR MARQUES
+def venteparcat(request):
+    lescats=cat_prod.objects.all()
+    context={'lescats':lescats}
+    return render(request, "venteparcat.html", context)
