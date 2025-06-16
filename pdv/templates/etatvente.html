@@ -20,13 +20,13 @@
       <div  align="left">
 
         <img height="50px" width="50px" src=""/><br>
-        <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><B>POINT DE VENTE</B></label></div>
+        <div align="left" style="font-family: 'Trebuchet MS'; background-color: rgb(12,44,156) ; color: white;"><label ><B>POINT DE VENTE</B></label></div>
 
-        <label ><B>Nom :</B>&nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp 13 bp 969 Abidjan 13</label><br>
+        <label ><B>Nom :</B>&nbsp 13 bp 969 Abidjan 13</label><br>
         <label ><B>Ville :</B> &nbsp RC00001/ABJ</label><br>
-        <label ><B>Commune :</B> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp CC47939/PARIS01 </label><br>
-        <label ><B>Quartier :</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp +225 07 49 43 37 50</label><br>
-        <label ><B>Tel:</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Cocody, Angré 8e Tranche</label><br>
+        <label ><B>Commune :</B> &nbsp CC47939/PARIS01 </label><br>
+        <label ><B>Quartier :</B>&nbsp +225 07 49 43 37 50</label><br>
+        <label ><B>Tel:</B>&nbsp Cocody, Angré 8e Tranche</label><br>
      
       </div>
     </th>
@@ -35,12 +35,12 @@
         <div align="left">
           <img height="50px" width="50px" src=""/><br>
 
-          <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><B>{{lavente.pointv.nom}}</B></label></div>
-          <label ><B>Nom:</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{lavente.pointv.nom}}</label><br>
-          <label ><B>Ville:</B>&nbsp &nbsp &nbsp &nbsp {{lavente.pointv.ville}}</label><br>
-          <label ><B>Commune:</B>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{lavente.pointv.commune}}</label><br>
-          <label ><B>Quartier:</B>&nbsp &nbsp &nbsp &nbsp {{lavente.pointv.quartier}}</label><br>
-          <label ><B>Tel:</B>&nbsp &nbsp &nbsp &nbsp {{lavente.pointv.contact_gerant}}</label><br>
+          <div align="left" style="font-family: 'Trebuchet MS'; background-color: rgb(12,44,156) ; color: white;"><label ><B>{{lavente.pointv.nom}}</B></label></div>
+          <label ><B>Nom:</B>&nbsp {{lavente.pointv.nom}}</label><br>
+          <label ><B>Ville:</B>&nbsp {{lavente.pointv.ville}}</label><br>
+          <label ><B>Commune:</B>&nbsp {{lavente.pointv.commune}}</label><br>
+          <label ><B>Quartier:</B>&nbsp {{lavente.pointv.quartier}}</label><br>
+          <label ><B>Tel:</B>&nbsp {{lavente.pointv.contact_gerant}}</label><br>
 
         </div>
       </th>
@@ -52,19 +52,19 @@
   <tr >
     <th >
       
-        <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><u><B>FACTURE PROFORMA</B></u></label></div>
+        <div align="left" style="font-family: 'Trebuchet MS'; background-color: rgb(12,44,156) ; color: white;"><label ><u><B>FACTURE PROFORMA</B></u></label></div>
           <div align="left">
-          <label ><B>N°:&nbsp &nbsp &nbsp &nbsp &nbsp</B> {{lavente.id}}</label><br>
-          <label ><B>Date: &nbsp &nbsp &nbsp</B>{{lavente.datevente}} </label><br>
+          <label ><B>N°:&nbsp</B> {{lavente.id}}</label><br>
+          <label ><B>Date:&nbsp</B>{{lavente.datevente}} </label><br>
           <label ><B>Delais:</B> &nbsp {{lavente.user.first_name}}</label>
           </div><br>
     </th>
 
       <th>  
-        <div align="left" style="font-family: 'Trebuchet MS'; background-color: black ; color: white;"><label ><u><B>INFORMATION DE PAIEMENT</B></u></label></div>
+        <div align="left" style="font-family: 'Trebuchet MS'; background-color: rgb(12,44,156) ; color: white;"><label ><u><B>INFORMATION DE PAIEMENT</B></u></label></div>
           <div align="left">
-          <label ><B>Net à payer:&nbsp &nbsp &nbsp &nbsp &nbsp</B> {{lavente.net_payer}} &nbsp FCFA</label><br>
-          <label ><B>Date : &nbsp &nbsp &nbsp</B>{{lavente.datevente}} </label><br>
+          <label ><B>Net à payer:&nbsp</B> {{lavente.net_payer}} &nbsp FCFA</label><br>
+          <label ><B>Date : &nbsp</B>{{lavente.datevente}} </label><br>
           </div><br>
       </th>
   </tr>
@@ -73,8 +73,8 @@
 
   <!--Contenu du document-->
  
-  <table style=" border: 1px solid black; padding: 5px;" >
-      <tr style="background-color: black; color: rgb(251, 251, 251);">
+  <table style=" border: 1px solid rgb(12,44,156); padding: 5px;" >
+      <tr style="background-color: rgb(12,44,156); color: rgb(251, 251, 251);">
           <th style="width: 5%;">N°</th>
           <th style="width: 30%;">Description</th>
           <th >Prix Unitaire</th>
@@ -103,7 +103,7 @@
       <table style=" padding: 5px; font-family: 'Trebuchet MS';" >
         <tr >
             <th>
-              <div style="font-family: 'Trebuchet MS'; background-color: black ; color: white;">
+              <div style="font-family: 'Trebuchet MS'; background-color: rgb(12,44,156) ; color: white;">
               <label ><u>OBSERVATION:</u></label><br>
               {{lavente.commentaire}}
             </div>
@@ -114,7 +114,7 @@
               <div align="left">
                 <label ><u>Total Vente:       &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp    {{lavente.montant}}</u></label><br>
                 <label ><u>Total Remise:     &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp{{lavente.remise}}</u></label><br>
-                <label id="netapayer"><u>Net à Payer:   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nb   {{lavente.net_payer}}</u></label>
+                <label id="netapayer"><u>Net à Payer:   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   {{lavente.net_payer}}</u></label>
                 <div align="center" style="background-color:#8e8a8a ;"><B>{{netenletre}}  &nbsp Francs CFA</B></div>
 
               </div><br>

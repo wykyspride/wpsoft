@@ -8,8 +8,8 @@ function viderchamps(){
 function ventepriodique() {
     const debu=new Date(document.getElementById('du').value);
     const fin =new Date(document.getElementById('au').value);
-      fetch("http://127.0.0.1:8000/apivente/")
-        .then((response) => {return response.json();})
+    let a=fetch("https://wykys.pythonanywhere.com/apivente/")
+        a.then((response) => {return response.json();})
         .then((ventes) => {
 
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -40,7 +40,7 @@ function ventepriodique() {
 
 function venteparcom(){
     idcom=document.getElementById("idcom").value
-    fetch("http://127.0.0.1:8000/apivente/")
+    fetch("https://wykys.pythonanywhere.com/apivente/")
     .then((response) => {return response.json();})
         .then((ventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -66,7 +66,7 @@ function venteparcom(){
 
 function venteparpv(){
     idpointv=document.getElementById("idpv").value
-    fetch("http://127.0.0.1:8000/apivente/")
+    fetch("https://wykys.pythonanywhere.com/apivente/")
     .then((response) => {return response.json();})
         .then((ventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -91,7 +91,7 @@ function venteparpv(){
 
 function venteparmarque(){
     idm=document.getElementById("idmaque").value
-    fetch("http://127.0.0.1:8000/apilignev/")
+    fetch("https://wykys.pythonanywhere.com/apilignev/")
     .then((response) => {return response.json();})
         .then((lventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -122,7 +122,7 @@ function venteparmarque(){
 
 function venteparcat(){
     idc=document.getElementById("idcate").value
-    fetch("http://127.0.0.1:8000/apilignev/")
+    fetch("https://wykys.pythonanywhere.com/apilignev/")
     .then((response) => {return response.json();})
         .then((lventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];

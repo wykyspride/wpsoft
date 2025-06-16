@@ -1,7 +1,7 @@
 /*  background: #f1f1f1  rgb(134, 132, 132) */
 .header1{
     border: 0.1rem solid; 
-    background: #ed1c24;
+    background: #3c6c3c;
     height: 100px;
     width: 100%;
     margin-right: 0;
@@ -21,7 +21,7 @@
 
 .menu1{
     width: 20%; 
-    border-color: #ed1c24;
+    border-color: #3c6c3c;
     box-shadow: 6px 4px 10px  #d3d2d2 ;
     transition: (50%,50%,-50%);
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -61,11 +61,11 @@
     text-align: center;
   }
   #menu-accordeon li {
-     background-color:#ed1c24; 
+     background-color:#3c6c3c; 
      border-radius: 6px;
      margin-bottom:2px;
      box-shadow: 3px 3px 3px #999;
-     border:solid 1px #ed1c24
+     border:solid 1px #3c6c3c
   }
   #menu-accordeon li li {
      max-height:0;
@@ -89,10 +89,10 @@
     font-size:1em
   }
   #menu-accordeon li:hover {
-     background: #ed1c24
+     background: #3c6c3c
   }
   #menu-accordeon li li:hover {
-     background: #999;
+     background: #0c2c9c;
   }
   #menu-accordeon ul li:last-child {
      border-radius: 0 0 6px 6px;

@@ -4,7 +4,7 @@
      function insererChampsprod() {
          /*Recuperation de l'api des données*/
         idpro=document.getElementById('idprod').value;
-        prod=fetch("http://127.0.0.1:8000/apidetailprod").then((response) => {
+        prod=fetch("https://wykys.pythonanywhere.com/apidetailprod").then((response) => {
         return response.json();}).then((produit) => {
         for ( const prod of produit) {
              /*Expression de la condition necessaire pour afficher les données dans les champs*/
@@ -28,7 +28,7 @@
      function insererChampspv() {
          /*Recuperation de l'api des données*/
         idpv=document.getElementById('idpv').value;
-        pointv=fetch("http://127.0.0.1:8000/apidetailpoitv").then((response) => {
+        pointv=fetch("https://wykys.pythonanywhere.com/apidetailpoitv").then((response) => {
         return response.json();}).then((pointvente) => {
         for ( const pointv of pointvente) {
              /*Expression de la condition necessaire pour afficher les données dans les champs*/
