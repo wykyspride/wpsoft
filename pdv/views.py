@@ -7,7 +7,11 @@ from django.db.models import Q
 from num2words import num2words
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-
+from django.db.models import Count, Sum
+import json
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+import requests
 
 # Page d'accueil
 def home(request):
@@ -360,3 +364,74 @@ def venteparcat(request):
     lescats=cat_prod.objects.all()
     context={'lescats':lescats}
     return render(request, "venteparcat.html", context)
+
+
+
+
+#ETABLISSEMENT DE GRAPHES
+def grapheparcom(request):
+    #Recuperation du nombre de vente par categorie
+    venteparcom= (vente.objects.values('User_id', 'User__first_name').annotate(nombre=Count('User_id')).order_by())
+    venteparpdv= (vente.objects.values('pointv_id', 'pointv__nom').annotate(mont=Sum('net_payer')).order_by())
+    print(venteparpdv)
+    context={'venteparcom':venteparcom, 'venteparpdv':venteparpdv}
+    return render (request,'grapheparcom.html',context)
+
+#API DE PAIEMENT
+@csrf_exempt
+def smartpay_payment(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            payload = {
+                "amount": data.get("amount"),
+                "msisdn": data.get("msisdn"),  # numéro téléphone au format international
+                "otp": data.get("otp", ""),  # souvent vide
+                "name": data.get("name", "orange"),  # opérateur
+                "type": data.get("type", "mobile_money"),
+                "reference": data.get("reference"),  # identifiant unique de la transaction
+                "countryIsoCode": data.get("countryIsoCode", "CIV")
+            }
+
+            headers = {
+                "x-apikey": settings.SMARTPAY_API_KEY,
+                "x-merchantId": settings.SMARTPAY_MERCHANT_ID,
+                "environnment": settings.SMARTPAY_ENV,
+                "Content-Type": "application/json"
+            }
+
+
+
+            url = f"{settings.SMARTPAY_BASE_URL}/api/Transactionsts/Payment"
+
+            response = requests.post(url, json=payload, headers=headers)
+            return JsonResponse(response.json(), status=response.status_code)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Méthode non autorisée"}, status=405)
+
+
+
+@csrf_exempt
+def smartpay_status(request, reference):
+    try:
+        headers = {
+            "x-apikey": settings.SMARTPAY_API_KEY,
+            "x-merchantId": settings.SMARTPAY_MERCHANT_ID,
+            "environnment": settings.SMARTPAY_ENV,
+            "Content-Type": "application/json"
+        }
+
+        url = f"{settings.SMARTPAY_BASE_URL}/api/Transactionsts/payment/{reference}"
+
+        response = requests.get(url, headers=headers)
+        return JsonResponse(response.json(), status=response.status_code)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+

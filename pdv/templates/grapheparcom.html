@@ -1,0 +1,209 @@
+{% extends 'maquette.html' %}
+
+{% block contenu %}
+
+<div style="display: flex;" align="center">
+
+<div class="row mt-2" style="width: 40%;">
+  
+    <div class="col md-8" >
+        
+        <div><canvas id="myChart"></canvas></div>
+        <div><canvas id="myChart1"></canvas></div>
+        <div><canvas id="myChart2"></canvas></div>
+
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <!--VENTES PAR COMMERCIAL-->
+          <script>
+            const ctx = document.getElementById('myChart');
+          
+            new Chart(ctx, {
+              type: 'pie',
+              data: {
+                //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels:[{% for v in venteparcom %} '{{v.User__first_name}}', {% endfor %}],
+                datasets: [{
+                  label: '# Ventes par commercial',
+                  //data: [12, 19, 3, 5, 2, 3],
+                  data: [{% for v in venteparcom %} {{v.nombre}}, {% endfor %}],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+
+    </div>
+
+  <!--VENTES PAR COMMERCIAL-->
+  <div>
+  <script>
+      const ctx1 = document.getElementById('myChart1');
+    
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels:[{% for v in venteparcom %} '{{v.User__first_name}}', {% endfor %}],
+          datasets: [{
+            label: '# Ventes par commercial',
+            //data: [12, 19, 3, 5, 2, 3],
+            data: [{% for v in venteparcom %} {{v.nombre}}, {% endfor %}],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    </script>
+  </div>
+
+
+      <!--MONTANT VENTES PAR POINT DE VENTE-->
+      <div>
+    <script>
+        const ctx2 = document.getElementById('myChart2');
+      
+        new Chart(ctx2, {
+          type: 'line',
+          data: {
+            //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels:[{% for m in venteparpdv %} '{{m.pointv__nom}}', {% endfor %}],
+            datasets: [{
+              label: '# Ventes par commercial',
+              //data: [12, 19, 3, 5, 2, 3],
+              data: [{% for m in venteparpdv %} {{m.mont}}, {% endfor %}],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+    </div>
+
+</div>
+
+
+
+
+<div class="row mt-2" style="width: 40%;  margin-left: 10%; height: 40%;">
+  
+    <div class="col md-8" >
+        
+        <div><canvas id="myChart3"></canvas></div>
+        <div><canvas id="myChart4"></canvas></div>
+        <div><canvas id="myChart5"></canvas></div>
+
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <!--VENTES PAR COMMERCIAL-->
+          <script>
+            const ctx3 = document.getElementById('myChart3');
+          
+            new Chart(ctx3, {
+              type: 'pie',
+              data: {
+                //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels:[{% for v in venteparcom %} '{{v.User__first_name}}', {% endfor %}],
+                datasets: [{
+                  label: '# Ventes par commercial',
+                  //data: [12, 19, 3, 5, 2, 3],
+                  data: [{% for v in venteparcom %} {{v.nombre}}, {% endfor %}],
+                  borderWidth: 1
+                  
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+
+    </div>
+
+
+
+
+  <!--VENTES PAR COMMERCIAL-->
+  <div>
+  <script>
+      const ctx4 = document.getElementById('myChart4');
+    
+      new Chart(ctx4, {
+        type: 'bar',
+        data: {
+          //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels:[{% for v in venteparcom %} '{{v.User__first_name}}', {% endfor %}],
+          datasets: [{
+            label: '# Ventes par commercial',
+            //data: [12, 19, 3, 5, 2, 3],
+            data: [{% for v in venteparcom %} {{v.nombre}}, {% endfor %}],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    </script>
+  </div>
+
+
+      <!--MONTANT VENTES PAR POINT DE VENTE-->
+      <div>
+    <script>
+        const ctx5 = document.getElementById('myChart5');
+      
+        new Chart(ctx5, {
+          type: 'line',
+          data: {
+            //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels:[{% for m in venteparpdv %} '{{m.pointv__nom}}', {% endfor %}],
+            datasets: [{
+              label: '# Ventes par commercial',
+              //data: [12, 19, 3, 5, 2, 3],
+              data: [{% for m in venteparpdv %} {{m.mont}}, {% endfor %}],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

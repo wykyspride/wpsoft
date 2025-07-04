@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path,include
-from pdv.views import home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, zonecouve,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,typepointvente,pointdevente,marqueprod,catprod, prod, apicatparmarque, commerciaux, apidetailprod, apidetailpoitv, lignevente
+from pdv.views import smartpay_status,smartpay_payment,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, zonecouve,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,typepointvente,pointdevente,marqueprod,catprod, prod, apicatparmarque, commerciaux, apidetailprod, apidetailpoitv, lignevente
 from django.conf import settings
 from django.conf.urls.static import static
 from pdv.api import apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset
@@ -26,6 +26,8 @@ urlpatterns = [
     path('apicatparmarque/',apicatparmarque, name="apicatparmarque"),
     path('apivente/',apivente, name="apivente"),
     path('apilignev/',apilignev, name="apilignev"),
+    path('api/pay/', smartpay_payment, name='smartpay_payment'),
+    path('api/status/<str:reference>/', smartpay_status, name='smartpay_status'),
 
     #path('apicatparmarque', include(router.urls)),
 
@@ -48,6 +50,7 @@ urlpatterns = [
     path('venteparpv',venteparpv, name="venteparpv"),
     path('venteparmarque',venteparmarque, name="venteparmarque"),
     path('venteparcat',venteparcat, name="venteparcat"),
+    path('grapheparcom', grapheparcom, name="grapheparcom"),
 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

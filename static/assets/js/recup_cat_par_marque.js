@@ -9,7 +9,7 @@ function recupcats() {
     idmarc=document.getElementById('idmarque').value;
     const app = document.getElementById('idcat');
 
-    fetch("http://127.0.0.1:8000/apicatparmarque/")
+    fetch("https://wykys.pythonanywhere.com/apicatparmarque/")
         .then((response) => {return response.json();})
         .then((categories) => {
             app.innerHTML = '<option value="">-------------</option>';            

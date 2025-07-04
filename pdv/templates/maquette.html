@@ -84,7 +84,17 @@
 
                                 </ul>
                             </li>
-                            
+                            <li><a href="#">Graphes</a>
+                                <ul>
+                                <li><a href="{% url 'grapheparcom' %}">Graphe par commercial</a></li>
+                                <li><a href="{% url 'venteparcom' %}">Ventes par commercial</a></li>
+                                <li><a href="{% url 'venteparpv'%}">Ventes par type de point de vente</a></li>
+                                <li><a href="{% url 'venteparmarque'%}">Ventes par marque</a></li>
+                                <li><a href="{% url 'venteparcat'%}">Ventes par catégorie</a></li>
+
+
+                                </ul>
+                            </li>
                             <li><a href="#">Administration</a>
                                 <ul>
                                     <li><a href="{% url 'prod' %}">Produits</a></li>

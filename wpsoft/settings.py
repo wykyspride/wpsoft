@@ -130,3 +130,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#API OM
+SMARTPAY_API_KEY = "90085972D26B123C4FB66D0359199B693A97E49C45D4403995ADE2A525B4A5BD"
+SMARTPAY_MERCHANT_ID = "b71a2c86-7257-4879-bae3-5970410b22e0"
+SMARTPAY_ENV = "production"
+SMARTPAY_BASE_URL = "http://38.242.148.33:5090"
