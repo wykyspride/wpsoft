@@ -1,5 +1,6 @@
 from rest_framework import routers, serializers, viewsets
 from pdv.models import cat_prod, produit, pointv, vente, ligne_vente
+from django.db.models import Count, Sum
 
 
 #API les categorie par marque
@@ -32,4 +33,10 @@ class apivente_serializer(serializers.ModelSerializer):
 class apilignev_serializer(serializers.ModelSerializer):
     class Meta:
         model=ligne_vente
+        fields='__all__'
+
+#API ventes par vendeur
+class apiventeparvendeur_serializer(serializers.ModelSerializer):
+    class Meta:
+        model=vente
         fields='__all__'

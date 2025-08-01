@@ -65,6 +65,7 @@ class commercial (models.Model):
 #POINT DE VENTE
 class pointv(models.Model):
     type_pv=models.ForeignKey(type_pv, on_delete=models.CASCADE)
+    zonecouv=models.ForeignKey(zonecouv, on_delete=models.CASCADE)
     nom=models.CharField(default="", max_length=200)
     proprietaire=models.CharField(default="", max_length=200)
     contact_pro=models.CharField(default="", max_length=200)
@@ -93,16 +94,18 @@ class produit(models.Model):
     def _str_(self):
         return self.nom
 
-#VENTE
+#VISITES VENTE
 class vente(models.Model):
     User=models.ForeignKey(User, on_delete=models.CASCADE)
     pointv=models.ForeignKey(pointv, on_delete=models.CASCADE)
     montant=models.BigIntegerField(default=0, )
     remise=models.BigIntegerField(default=0, )
     net_payer=models.BigIntegerField(default=0, )
+    zonecouv=models.ForeignKey(zonecouv, on_delete=models.CASCADE)
     statut=models.CharField(default="", max_length=10)
     commentaire=models.CharField(default="", max_length=200)
     datevente=models.DateTimeField(default=datetime.now, blank=True)
+    etat=models.CharField(default="", max_length=20, blank=False )
 
 
 #LIGNE DE VENTE

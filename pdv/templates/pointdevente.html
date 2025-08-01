@@ -32,6 +32,15 @@
         {% endfor %}
       </select><br>
 
+
+      <label>Zone de couverture * :</label>
+      <select name="zonecouv" id="zonecouv" required>
+        <option >---------------</option>
+        {% for zc in leszonescouv %}
+        <option value="{{zc.id}}" > {{zc.nom}} </option>
+        {% endfor %}
+      </select><br>
+
       <label>Nom du point de vente *: </label><input type="text" name="nom" class="form-control" onfocus="getLocation()" required><br>
       <label>Proprietaire *: </label><input type="text" name="proprietaire" class="form-control" required><br>
       <label>Contact Pro *: </label><input type="text" name="contact_pro" class="form-control" required><br>

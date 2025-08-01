@@ -4,12 +4,11 @@
 {%load static%}
 
 <!--TITRE PAGE-->
-<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mon portefeuil de ventes:</h5><br><br>            
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mon portefeuil de visites-ventes:</h5><br><br>            
 
 
 
 <!-- Bouton pour ouvrir la fenêtre -->
-   <div align="Right"><button id="api" class="btn btn-success" onclick=apimobile()>Nouveau</button></div><br>
 
   <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
   <!-- Fenêtre flottante -->
@@ -32,6 +31,7 @@
       </select><br>
 
           <!--LES DETAILS DU POINT DE VENTE CHOISI-->
+          <label>Zone de couverture: </label><input type="text" name="zonecouv" id="zonecouv" class="form-control" ><br>
           <label>Nom du point de vente: </label><input type="text" name="nompv" id="nompv" class="form-control" disabled><br>
           <label>Proprietaire: </label><input type="text" name="proprietaire" id="proprietaire" class="form-control" disabled><br>
           <label>Contact Pro: </label><input type="text" name="contact_pro" id="contact_pro" class="form-control" disabled ><br>
@@ -44,6 +44,14 @@
           
           <label>Date: </label><input type="Date" name="datev" id="datev" class="form-control" ><br> 
           <label>Commentaire: </label><textarea type="text" name="commentaire" class="form-control" ></textarea><br>
+
+          <label>Etat :</label>
+          <select name="etat" id="etat">
+            <option >---------------</option>
+            <option value="VENTE" >VENTE</option>
+            <option value="PAS VENTE" >PAS VENTE </option>
+
+      </select><br>
 
       <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
 
@@ -65,6 +73,7 @@
         <th><B>Remise</B></th>
         <th ><B>Net à Payer</B></th>
         <th ><B>Observation</B></th>
+        <th ><B>Etat</B></th>
 
         <th ></th>
         <th ><B>Actions</B></th>
@@ -81,6 +90,8 @@
             <th>{{mavente.remise}}</th>
             <td>{{mavente.net_payer}}</td>
             <td>{{mavente.commentaire}}</td>
+            <td>{{mavente.etat}}</td>
+
 
         <!--Boutton voir details-->
             <td >  
@@ -116,8 +127,6 @@
     <!--Scripts pour afficher la fenetre de saisie flottante-->
   <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
   <script src="{% static 'assets/js/vente.js' %}"></script>
-  <script src="{% static 'assets/js/Test_SmartPayGateWay_Melogerici.postman_collection.json' %}"></script>
-  <script src="{% static 'assets/js/apimobile.js' %}"></script>
 
 
 {%endblock%}

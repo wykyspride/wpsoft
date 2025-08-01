@@ -94,11 +94,13 @@ def espaceuser(request, iduser):
             statut="EN COURS"
             commentaire=request.POST.get('commentaire')
             datevente=request.POST.get('datev')
-            savevente=vente.objects.create( User_id=iduser, pointv_id=pointv_id, montant=montant,  net_payer=net_payer, statut=statut , commentaire=commentaire, datevente=datevente )
+            etat=request.POST.get('etat')
+            zonecouv=request.POST.get('zonecouv')
+            savevente=vente.objects.create( User_id=iduser, zonecouv_id=zonecouv, pointv_id=pointv_id, montant=montant, etat=etat,  net_payer=net_payer, statut=statut , commentaire=commentaire, datevente=datevente )
             savevente.save()
     else:
         print("Veuillez vous connecter")
-        return redirect(CONEX)
+        return redirect(conex)
     return render(request, "espaceuser.html", context)
 
 
@@ -122,12 +124,13 @@ def typepointvente(request):
 #POINT DE VENTE
 def pointdevente(request):
     typepoints=type_pv.objects.all()
+    leszonescouv=zonecouv.objects.all()
     lespv=pointv.objects.all()
-    context={'typepoints':typepoints, 'lespv':lespv}
+    context={'typepoints':typepoints, 'lespv':lespv, 'leszonescouv':leszonescouv}
 
     if request.method =="POST":
         type_pv_id=request.POST.get('idtype')
-        print (type_pv_id)
+        zonecouv_id=request.POST.get('zonecouv')
         nom=request.POST.get("nom")
         proprietaire=request.POST.get("proprietaire")
         contact_pro=request.POST.get("contact_pro")
@@ -139,7 +142,7 @@ def pointdevente(request):
         gps=request.POST.get("gps")
         commentaire=request.POST.get("commentaire")
         datecreation=request.POST.get("datecreation")
-        savepv=pointv.objects.create(type_pv_id=type_pv_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville=ville, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
+        savepv=pointv.objects.create(type_pv_id=type_pv_id, zonecouv_id=zonecouv_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville=ville, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
         savepv.save()
     return render(request, "pointdevente.html",context)
 
@@ -230,6 +233,17 @@ def apivente(request):
         datalist.append({'id':i.id, "user_id":i.User_id,"user_name":i.User.first_name, "datevente":i.datevente , "idpointv":i.pointv_id, "pointv_id":i.pointv.nom, "montant":i.montant, "remise":i.remise, "net_payer":i.net_payer, "commentaire":i.commentaire})
     return JsonResponse(datalist, safe=False)
 
+
+#API VENTE PAR VENDEUR PAR ZONE
+def apiventeparvendeur(request):
+    #◙data=(vente.objects.values('User_id','pointv__nom', 'User__first_name','datevente', 'zonecouv__nom').annotate(nombre=Count('User_id'), somme=Sum('net_payer'), achateff=Count('id', filter=Q('etat='VENTE'))).order_by()))
+    data = (vente.objects.values('User_id', 'pointv__nom', 'User__first_name', 'datevente', 'zonecouv__nom').annotate(nombre=Count('User_id'),somme=Sum('net_payer'), achateff=Count('id', filter=Q(etat='VENTE'))).order_by())
+    print(data)
+    datalist=[]
+    for i in data:
+        datalist.append({ "datevente":i['datevente'],"pointv__nom":i['pointv__nom'] ,"User_id":i['User_id'], "User__first_name":i['User__first_name'], "zonecouv__nom":i['zonecouv__nom'], "nombre":i['nombre'], "achateff":i['achateff'], "somme":i['somme']  })
+    return JsonResponse(datalist, safe=False)
+
 #API DE RECUPERATION DES LIGNES VENTE 
     #API
 def apilignev(request):
@@ -283,32 +297,37 @@ def commerciaux(request):
 #LIGNES DE VENTE
 def lignevente(request, idvente):
     lavente=vente.objects.get(id=idvente)
-    lesprod=produit.objects.all()
-    leslignes=ligne_vente.objects.filter(vente_id=lavente.id)
-    context={'lavente':lavente, 'lesprod':lesprod, 'leslignes':leslignes }
+    if lavente.etat=="VENTE":
+        lesprod=produit.objects.all()
+        leslignes=ligne_vente.objects.filter(vente_id=lavente.id)
+        context={'lavente':lavente, 'lesprod':lesprod, 'leslignes':leslignes }
 
-    #Enregistrement de la ligne de vente
-    if request.method=="POST":
-        vente_id=lavente.id
-        produit_id=request.POST.get('idprod')
-        qte=request.POST.get('qte')
-        prixu=request.POST.get('prixu')
-        remise=request.POST.get('remise')
-        prix_total=request.POST.get('montant')
-        net_payer=request.POST.get('netpayer')
-        datevente=lavente.datevente
-        saveligne=ligne_vente.objects.create(vente_id_id=vente_id, produit_id=produit_id, qte=qte, prixu=prixu, prix_total=prix_total, datevente=datevente, remise=remise, net_payer=net_payer)
-        saveligne.save()
+        #Enregistrement de la ligne de vente
+        if request.method=="POST":
+            vente_id=lavente.id
+            produit_id=request.POST.get('idprod')
+            qte=request.POST.get('qte')
+            prixu=request.POST.get('prixu')
+            remise=request.POST.get('remise')
+            prix_total=request.POST.get('montant')
+            net_payer=request.POST.get('netpayer')
+            datevente=lavente.datevente
+            saveligne=ligne_vente.objects.create(vente_id_id=vente_id, produit_id=produit_id, qte=qte, prixu=prixu, prix_total=prix_total, datevente=datevente, remise=remise, net_payer=net_payer)
+            saveligne.save()
 
-    #Modification de la vente
-        lavente.montant=request.POST.get('p_soustotal')
-        lavente.remise=request.POST.get('p_remise')
-        lavente.net_payer=request.POST.get('p_netapayer')
-        lavente.save()
-        if request.user.is_authenticated:
-            user=request.user
-            return redirect (espaceuser, user.id )
-    return render (request, 'lignevente.html', context)
+        #Modification de la vente
+            lavente.montant=request.POST.get('p_soustotal')
+            lavente.remise=request.POST.get('p_remise')
+            lavente.net_payer=request.POST.get('p_netapayer')
+            lavente.save()
+            if request.user.is_authenticated:
+                user=request.user
+                return redirect (espaceuser, user.id )
+        return render (request, 'lignevente.html', context)
+    else:
+        user=request.user
+        return redirect (espaceuser, user.id )
+
 
 
 #ETAT VENTE
@@ -377,61 +396,15 @@ def grapheparcom(request):
     context={'venteparcom':venteparcom, 'venteparpdv':venteparpdv}
     return render (request,'grapheparcom.html',context)
 
-#API DE PAIEMENT
-@csrf_exempt
-def smartpay_payment(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-
-            payload = {
-                "amount": data.get("amount"),
-                "msisdn": data.get("msisdn"),  # numéro téléphone au format international
-                "otp": data.get("otp", ""),  # souvent vide
-                "name": data.get("name", "orange"),  # opérateur
-                "type": data.get("type", "mobile_money"),
-                "reference": data.get("reference"),  # identifiant unique de la transaction
-                "countryIsoCode": data.get("countryIsoCode", "CIV")
-            }
-
-            headers = {
-                "x-apikey": settings.SMARTPAY_API_KEY,
-                "x-merchantId": settings.SMARTPAY_MERCHANT_ID,
-                "environnment": settings.SMARTPAY_ENV,
-                "Content-Type": "application/json"
-            }
 
 
-
-            url = f"{settings.SMARTPAY_BASE_URL}/api/Transactionsts/Payment"
-
-            response = requests.post(url, json=payload, headers=headers)
-            return JsonResponse(response.json(), status=response.status_code)
-
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
-
-    return JsonResponse({"error": "Méthode non autorisée"}, status=405)
+#Nbre de Points de vente visités par vendeur
+def Nbrepvviste(request):
+    nbrevisite=(vente.objects.values('User_id','pointv__nom', 'User__first_name','datevente', 'zonecouv__nom').annotate(nombre=Count('User_id'), somme=Sum('net_payer')).order_by())
+    context={'nbrevisite':nbrevisite}
+    return render(request, 'nbrevisite.html',context)
 
 
-
-@csrf_exempt
-def smartpay_status(request, reference):
-    try:
-        headers = {
-            "x-apikey": settings.SMARTPAY_API_KEY,
-            "x-merchantId": settings.SMARTPAY_MERCHANT_ID,
-            "environnment": settings.SMARTPAY_ENV,
-            "Content-Type": "application/json"
-        }
-
-        url = f"{settings.SMARTPAY_BASE_URL}/api/Transactionsts/payment/{reference}"
-
-        response = requests.get(url, headers=headers)
-        return JsonResponse(response.json(), status=response.status_code)
-
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
 
 
 

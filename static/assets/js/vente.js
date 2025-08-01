@@ -15,8 +15,6 @@
                document.getElementById("seuil").value=prod.seuil;
                document.getElementById("cat").value=prod.cat_id;
                document.getElementById("couleur").value=prod.couleur;
-
-
                 }
                 }
         });
@@ -42,6 +40,7 @@
                document.getElementById("commune").value=pointv.commune;
                document.getElementById("quartier").value=pointv.quartier;
                document.getElementById("gps").value=pointv.gps;
+               document.getElementById("zonecouv").value=pointv.zonecouv_id;
                 }
                 }
         });
@@ -115,3 +114,40 @@
 
     }
 
+
+    ///INSERTION DANS LE TABLEAU
+
+    function insererCellulesventeparvendeur() {
+      debut=document.getElementById('du').value
+      fin=document.getElementById('au').value
+      
+      const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
+        //Vider la table
+          table_details.innerHTML='';
+
+          
+      //while (table_details.rows.length > 0) {
+                //table_details.deleteRow(0);}
+
+
+      //ventes=fetch("https://wykys.pythonanywhere.com/apiventeparvendeur").then((response) => {
+      lavente=fetch("http://127.0.0.1:8000/apiventeparvendeur").then((response) => {
+
+        return response.json();}).then((lesventes) => {
+        for ( const lavente of lesventes) {
+             if (lavente.datevente>=debut & lavente.datevente<=fin ) {
+
+            
+            const ligne = table_details.insertRow();
+
+            ligne.insertCell(0).textContent = lavente.datevente;
+            ligne.insertCell(1).textContent = lavente.User__first_name;
+            ligne.insertCell(2).textContent = lavente.zonecouv__nom;
+            ligne.insertCell(3).textContent = lavente.pointv__nom;
+            ligne.insertCell(4).textContent = lavente.nombre;
+            ligne.insertCell(5).textContent = lavente.achateff;
+            ligne.insertCell(6).textContent = lavente.somme;
+              
+      }
+    }
+  })}

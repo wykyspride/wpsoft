@@ -64,10 +64,10 @@
                         <!--Le menu-->
                         <ul id="menu-accordeon" >    
                             
-                            <li><a href="#">Gestion des ventes</a>
+                            <li><a href="#">Visites-ventes</a>
                                 <ul>
                                     
-                                    <li><a href="/espaceuser/{{user.id}}">Ventes</a></li>
+                                    <li><a href="/espaceuser/{{user.id}}">Visites-Ventes</a></li>
                                   <li><a href="{% url 'pointdevente' %}">Points de vente</a></li>
                                </ul>
                             </li>
@@ -76,19 +76,20 @@
                             <li><a href="#">Statistiques</a>
                                 <ul>
                                 <li><a href="{% url 'stativente' %}">Ventes par période</a></li>
-                                <li><a href="{% url 'venteparcom' %}">Ventes par commercial</a></li>
-                                <li><a href="{% url 'venteparpv'%}">Ventes par type de point de vente</a></li>
+                                <li><a href="{% url 'venteparcom' %}">Ventes par vendeur</a></li>
+                                <li><a href="{% url 'venteparpv'%}">Ventes par type de PDV</a></li>
                                 <li><a href="{% url 'venteparmarque'%}">Ventes par marque</a></li>
                                 <li><a href="{% url 'venteparcat'%}">Ventes par catégorie</a></li>
+                                <li><a href="{% url 'Nbrepvviste'%}">Nbre de vente par vendeur</a></li>
 
 
                                 </ul>
                             </li>
                             <li><a href="#">Graphes</a>
                                 <ul>
-                                <li><a href="{% url 'grapheparcom' %}">Graphe par commercial</a></li>
-                                <li><a href="{% url 'venteparcom' %}">Ventes par commercial</a></li>
-                                <li><a href="{% url 'venteparpv'%}">Ventes par type de point de vente</a></li>
+                                <li><a href="{% url 'grapheparcom' %}">Graphe par Vendeur</a></li>
+                                <li><a href="{% url 'venteparcom' %}">Ventes par Vendeur</a></li>
+                                <li><a href="{% url 'venteparpv'%}">Ventes par type de PDV</a></li>
                                 <li><a href="{% url 'venteparmarque'%}">Ventes par marque</a></li>
                                 <li><a href="{% url 'venteparcat'%}">Ventes par catégorie</a></li>
 
@@ -98,10 +99,10 @@
                             <li><a href="#">Administration</a>
                                 <ul>
                                     <li><a href="{% url 'prod' %}">Produits</a></li>
-                                    <li><a href="{% url 'commercial' %}">Commerciaux</a></li>
+                                    <li><a href="{% url 'commercial' %}">Vendeurs</a></li>
                                     <li><a href="{% url 'marqueprod' %}">Marques de produits</a></li>
                                     <li><a href="{% url 'catprod' %}">Catégories de Marque</a></li>
-                                    <li> <a href="{% url 'typepointvente' %}" >Type de point de vente</a></li>
+                                    <li> <a href="{% url 'typepointvente' %}" >Type de PDV</a></li>
                                     <li> <a href="{% url 'zonecouve' %}" >Zones de couvertures</a></li>
 
                                     
