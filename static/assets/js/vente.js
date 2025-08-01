@@ -130,8 +130,8 @@
                 //table_details.deleteRow(0);}
 
 
-      //ventes=fetch("https://wykys.pythonanywhere.com/apiventeparvendeur").then((response) => {
-      lavente=fetch("http://127.0.0.1:8000/apiventeparvendeur").then((response) => {
+      lavente=fetch("https://wykys.pythonanywhere.com/apiventeparvendeur").then((response) => {
+      //lavente=fetch("http://127.0.0.1:8000/apiventeparvendeur").then((response) => {
 
         return response.json();}).then((lesventes) => {
         for ( const lavente of lesventes) {
