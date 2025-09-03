@@ -53,7 +53,7 @@
 <!--TABLEAU DE DONNEES-->
 
   <div class="tableinfo" >
-    <table class="table"  >
+    <table class="table table-striped"  >
         
       <tr style="background-color: #f1f1f1;">
         <th><B >N°</B></th>
@@ -63,7 +63,6 @@
         <th ><B>Catégorie</B></th>
         <th ><B>Qte Pro</B></th>
         <th ><B>Qte Seuil</B></th>
-        <th ><B>Couleur</B> </th>
         <th ><B>Descritpion</B></th>
 
         <th ></th>
@@ -77,10 +76,9 @@
             <th scope="row" >{{prod.datecreation}}</th>
             <td>{{prod.nom}}</td>
             <td>{{prod.marque.libelle}}</td>
-            <td>{{prod.cat.libelle}}</td>
+            <td>{{prod.cat_prod.libelle}}</td>
             <td>{{prod.qte}}</td>
             <td>{{prod.seuil}}</td>
-            <td>{{prod.couleur}}</td>
             <td>{{prod.description}}</td>
             
         <!--Boutton voir details-->

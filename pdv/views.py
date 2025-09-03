@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import type_pv, pointv,marque_prod, cat_prod, produit, commercial,vente,ligne_vente, zonecouv
+from .models import  vente,Client,marque_prod, cat_prod, produit, Vendeur,vente,ligne_vente, Region,Ville,Basedom,Catpresta
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
@@ -65,38 +65,71 @@ def deconex(request):
 
 
 
-#ZONE DE COUVERTURES
-def zonecouve(request):
-    leszones=zonecouv.objects.all()
-    context={'leszones':leszones}
+#REGIONS
+def region(request):
+    lesregions=Region.objects.all()
+    context={'lesregions':lesregions}
 
     if request.method =="POST":
-        nom=request.POST.get('nom')
-        savezone=zonecouv.objects.create(nom=nom)
-        savezone.save()
-    return render(request, 'zonecouv.html',  context)
+        libelle=request.POST.get('libelle')
+        saveRegion=Region.objects.create(libelle=libelle)
+        saveRegion.save()
+    return render(request, 'region.html',  context)
+
+#BASE DOM
+def basedom(request):
+    lesbasedom=Basedom.objects.all()
+    lesregions=Region.objects.all()
+    lesvilles=Ville.objects.all()
+    context={'lesbasedom':lesbasedom, 'lesregions':lesregions , 'lesvilles':lesvilles}
+
+    if request.method =="POST":
+        libelle=request.POST.get('libelle')
+        region_id=request.POST.get('region')
+        ville_id=request.POST.get('ville')
+        saveBasedom=Basedom.objects.create(libelle=libelle, Region_id=region_id, Ville_id=ville_id)
+        saveBasedom.save()
+    return render(request, 'basedom.html',  context)
+
+
+#CATEGORIE DE PRESTATAIRE
+def adcatpresta (request):
+    lescatpresta=Catpresta.objects.all()
+    context={'lescatpresta':lescatpresta}
+    if request.method =="POST":
+        libelle=request.POST.get('libelle')
+        savecatpresta=Catpresta.objects.create(libelle=libelle)
+        savecatpresta.save()
+    return render(request, 'adcatpresta.html', context)
 
 
 #Espace User
 def espaceuser(request, iduser):
     if request.user.is_authenticated:
-        lespv=pointv.objects.all()
+        lesclients=Client.objects.all()
         lesprod=produit.objects.all()
+        lescatpres=Catpresta.objects.all()
         mesventes=vente.objects.filter(User_id=iduser)
-        context={'lespv':lespv, 'mesventes' : mesventes, "lesprod":lesprod }
+        context={'lesclients':lesclients, 'mesventes' : mesventes, "lesprod":lesprod, 'lescatpres':lescatpres }
 
         if request.method =="POST":
-            User_id=iduser
-            pointv_id=request.POST.get('idpv')
-            montant=0
-            remise=0
-            net_payer=0
-            statut="EN COURS"
+            net_payer=request.POST.get('venterealise')
             commentaire=request.POST.get('commentaire')
-            datevente=request.POST.get('datev')
+            datevente=request.POST.get('datevente')
             etat=request.POST.get('etat')
-            zonecouv=request.POST.get('zonecouv')
-            savevente=vente.objects.create( User_id=iduser, zonecouv_id=zonecouv, pointv_id=pointv_id, montant=montant, etat=etat,  net_payer=net_payer, statut=statut , commentaire=commentaire, datevente=datevente )
+            nbreJtravail=request.POST.get('nbreJtravail')
+            objectifvisite=request.POST.get('objectifvisite')
+            visiterealise=request.POST.get('visiterealise')
+            visiteplanifie=request.POST.get('visiteplanifie')
+            pdvreussit=request.POST.get('pdvreussit')
+            nbremoyskupdv=request.POST.get('nbremoyskupdv')
+            objectifvente=request.POST.get('objectifvente')
+            venterealise=request.POST.get('venterealise')
+            nbrebso=request.POST.get('nbrebso')
+            Catpresta_id=request.POST.get('Catpresta_id')
+            Client_id=request.POST.get('Client_id')
+            User_id=iduser
+            savevente=vente.objects.create(User_id=User_id,Client_id=Client_id,Catpresta_id=Catpresta_id,nbrebso=nbrebso,venterealise=venterealise,objectifvente=objectifvente,nbremoyskupdv=nbremoyskupdv,pdvreussit=pdvreussit, visiteplanifie=visiteplanifie, net_payer=net_payer, commentaire=commentaire,datevente=datevente, etat=etat,  nbreJtravail=nbreJtravail, objectifvisite=objectifvisite, visiterealise=visiterealise)
             savevente.save()
     else:
         print("Veuillez vous connecter")
@@ -106,43 +139,45 @@ def espaceuser(request, iduser):
 
 
 
-#TYPE POINT DE VENTE
+#VILLE
 def adtypepoint(request):
     return render(request, "adtypepoint.html")
 
-#ESPACE TYPE POINT DE VENTE
-def typepointvente(request):
-    lestypepv=type_pv.objects.all()
-    context={'lestypepv':lestypepv}
+#ESPACE VILLE
+def adville(request):
+    lesvilles=Ville.objects.all()
+    lesregions=Region.objects.all()
+    context={'lesvilles':lesvilles, 'lesregions':lesregions}
     if request.method == "POST":
         libelle=request.POST.get('libelle')
-        savetypepoint=type_pv.objects.create(libelle=libelle)
-        savetypepoint.save()
-    return render(request, 'typepointvente.html', context)
+        idregion=request.POST.get('idregion')
+        saveville=Ville.objects.create(libelle=libelle, Region_id=idregion)
+        saveville.save()
+    return render(request, 'ville.html', context)
 
 
-#POINT DE VENTE
-def pointdevente(request):
-    typepoints=type_pv.objects.all()
-    leszonescouv=zonecouv.objects.all()
-    lespv=pointv.objects.all()
-    context={'typepoints':typepoints, 'lespv':lespv, 'leszonescouv':leszonescouv}
+#CLENTS
+def adclient(request):
+    lesclients=Client.objects.all()
+    lesregions=Region.objects.all()
+    lesville=Ville.objects.all()
+    context={'lesville':lesville, 'lesregions':lesregions, 'lesclients':lesclients}
 
     if request.method =="POST":
         type_pv_id=request.POST.get('idtype')
-        zonecouv_id=request.POST.get('zonecouv')
+        Region_id=request.POST.get('zonecouv')
         nom=request.POST.get("nom")
         proprietaire=request.POST.get("proprietaire")
         contact_pro=request.POST.get("contact_pro")
         gerant=request.POST.get("gerant")
         contact_gerant=request.POST.get("contact_gerant")
-        ville=request.POST.get("ville")
+        ville_id=request.POST.get("ville")
         commune=request.POST.get("commune")
         quartier=request.POST.get("quartier")
         gps=request.POST.get("gps")
         commentaire=request.POST.get("commentaire")
         datecreation=request.POST.get("datecreation")
-        savepv=pointv.objects.create(type_pv_id=type_pv_id, zonecouv_id=zonecouv_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville=ville, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
+        savepv=Client.objects.create(type_pv_id=type_pv_id, Region_id=Region_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville_id=ville_id, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
         savepv.save()
     return render(request, "pointdevente.html",context)
 
@@ -171,7 +206,24 @@ def catprod(request):
         savecat.save()
     return render(request, "catprod.html", context)
 
-
+#LES CLIENTS
+def adclient(request):
+    lesclients=Client.objects.all()
+    lesregions=Region.objects.all()
+    lesvilles=Ville.objects.all()
+    context={'lesclients':lesclients, 'lesregions':lesregions, 'lesvilles':lesvilles }
+    if request.method=='POST':
+        nom=request.POST.get('nom')
+        proprietaire=request.POST.get('proprietaire')
+        contact_pro=request.POST.get('contactpro')
+        gerant=request.POST.get('gerant')
+        contact_gerant=request.POST.get('contactgerant')
+        commentaire=request.POST.get('commentaire')
+        Region_id=request.POST.get('region')
+        Ville_id=request.POST.get('ville')
+        saveclient=Client.objects.create(nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant,  contact_gerant=contact_gerant, commentaire=commentaire, Region_id=Region_id, Ville_id=Ville_id )
+        saveclient.save()
+    return render(request, "client.html", context)
 
 #LES PRODUITS
 def prod(request):
@@ -188,7 +240,7 @@ def prod(request):
         seuil=request.POST.get("seuil")
         couleur=request.POST.get("couleur")
         description=request.POST.get("description")
-        saveprod=produit.objects.create(marque_id=marque, cat_id=cat, nom=nom, prixu=prixu, qte=qte, seuil=seuil, couleur=couleur, description=description)
+        saveprod=produit.objects.create(marque_id=marque, cat_prod_id=cat, nom=nom, prixu=prixu, qte=qte, seuil=seuil, description=description)
         saveprod.save()
     return render(request, 'produit.html', context)
 
@@ -211,17 +263,17 @@ def apidetailprod(request):
     data=produit.objects.all()
     datalist=[]
     for i in data:
-        datalist.append({'id':i.id, 'prixu':i.prixu, 'qte':i.qte, 'seuil':i.seuil, "marque_id":i.marque.libelle, "cat_id":i.cat.libelle, "couleur":i.couleur})
+        datalist.append({'id':i.id, 'prixu':i.prixu, 'qte':i.qte, 'seuil':i.seuil, "marque_id":i.marque.libelle})
     return JsonResponse(datalist, safe=False)
 
 
 #API DE RECUPERATION DES POINT DE VENTE 
     #API
 def apidetailpoitv(request):
-    data=pointv.objects.all()
+    data=Client.objects.all()
     datalist=[]
     for i in data:
-        datalist.append({'id':i.id, "nom":i.nom, "proprietaire":i.proprietaire, "contact_pro":i.contact_pro, "gerant":i.gerant, "contact_gerant":i.contact_gerant, "ville":i.ville, "commune":i.commune, "quartier":i.quartier, "gps":i.gps})
+        datalist.append({'id':i.id, 'Region_id':i.Region.libelle})
     return JsonResponse(datalist, safe=False)
 
 #API DE RECUPERATION DES VENTE 
@@ -230,18 +282,18 @@ def apivente(request):
     data=vente.objects.all()
     datalist=[]
     for i in data:
-        datalist.append({'id':i.id, "user_id":i.User_id,"user_name":i.User.first_name, "datevente":i.datevente , "idpointv":i.pointv_id, "pointv_id":i.pointv.nom, "montant":i.montant, "remise":i.remise, "net_payer":i.net_payer, "commentaire":i.commentaire})
+        datalist.append({'id':i.id, "user_id":i.User_id,"user_name":i.User.first_name, "datevente":i.datevente , "Catpresta_id":i.Catpresta_id,  "net_payer":i.net_payer,  "commentaire":i.commentaire,  "Client_id":i.Client.nom, "idclient":i.Client_id})
     return JsonResponse(datalist, safe=False)
 
 
 #API VENTE PAR VENDEUR PAR ZONE
 def apiventeparvendeur(request):
     #◙data=(vente.objects.values('User_id','pointv__nom', 'User__first_name','datevente', 'zonecouv__nom').annotate(nombre=Count('User_id'), somme=Sum('net_payer'), achateff=Count('id', filter=Q('etat='VENTE'))).order_by()))
-    data = (vente.objects.values('User_id', 'pointv__nom', 'User__first_name', 'datevente', 'zonecouv__nom').annotate(nombre=Count('User_id'),somme=Sum('net_payer'), achateff=Count('id', filter=Q(etat='VENTE'))).order_by())
+    data = (vente.objects.values('User_id', 'Client__nom', 'User__first_name', 'datevente', 'Client__Region__libelle').annotate(nombre=Count('User_id'),somme=Sum('net_payer'), achateff=Count('id', filter=Q(etat='VENTE'))).order_by())
     print(data)
     datalist=[]
     for i in data:
-        datalist.append({ "datevente":i['datevente'],"pointv__nom":i['pointv__nom'] ,"User_id":i['User_id'], "User__first_name":i['User__first_name'], "zonecouv__nom":i['zonecouv__nom'], "nombre":i['nombre'], "achateff":i['achateff'], "somme":i['somme']  })
+        datalist.append({ "datevente":i['datevente'],"Client__nom":i['Client__nom'] ,"User_id":i['User_id'], "User__first_name":i['User__first_name'], "Client__Region__libelle":i['Client__Region__libelle'], "nombre":i['nombre'], "achateff":i['achateff'], "somme":i['somme']  })
     return JsonResponse(datalist, safe=False)
 
 #API DE RECUPERATION DES LIGNES VENTE 
@@ -250,16 +302,19 @@ def apilignev(request):
     data=ligne_vente.objects.all()
     datalist=[]
     for i in data:
-        datalist.append({'id':i.id, "vente_id":i.vente_id_id, "cat_id":i.produit.cat_id, "marque_id":i.produit_id, "lacat":i.produit.cat.libelle, "lamarc":i.produit.marque.libelle, "pointvente":i.vente_id.pointv.nom,"qte":i.qte, "prixu":i.prixu , "prix_total":i.prix_total, "remise":i.remise, "datevente":i.datevente, "produit_id":i.produit.nom, "net_payer":i.net_payer, "comm":i.vente_id.User.first_name})
+        datalist.append({'id':i.id, "vente_id":i.vente_id,  "marque_id":i.produit_id, "lacat":i.produit.cat_prod.libelle, "lamarc":i.produit.marque.libelle, "pointvente":i.vente.Client.nom,"qte":i.qte, "prixu":i.prixu , "datevente":i.datevente, "produit_id":i.produit.nom, "net_payer":i.net_vente, "comm":i.vente.User.first_name})
     return JsonResponse(datalist, safe=False)
 
 
 
 #USER AND COMMERCIAL COMMERCIAL
-def commerciaux(request):
-    lescommercio =commercial.objects.all()
-    leszones=zonecouv.objects.all()
-    context={'lescommercio': lescommercio, 'leszones':leszones}
+def vendeurs(request):
+    lesvendeur =Vendeur.objects.all()
+    lesregions=Region.objects.all()
+    lesvilles=Ville.objects.all()
+    lesbasedom=Basedom.objects.all()
+
+    context={'lesvendeur': lesvendeur, 'lesregions':lesregions, 'lesvilles':lesvilles, 'lesbasedom':lesbasedom}
     if request.method == "POST":
         
         #ENREGISTREMENT DANS USER
@@ -270,9 +325,11 @@ def commerciaux(request):
         #ENREGISTREMENT DU COMMERCIAL
         nom=request.POST.get('nom')
         contact=request.POST.get('contact')
+        ville_id=request.POST.get('ville')
+        Basedom_id=request.POST.get('basedom')
+        Region_id=request.POST.get('region')
         photo=request.POST.get('photo')
         datenaiss=request.POST.get('datenaiss')
-        zonecouv_id=request.POST.get('zonecouv')
         lieunaiss=request.POST.get('lieunaiss')
         lieuresidence=request.POST.get('lieuresidence')
         profil=request.POST.get('profil')
@@ -288,9 +345,9 @@ def commerciaux(request):
         #ENREGISTREMENT DANS COMMERCIAL
         
         user_id=saveuser.id
-        savecom=commercial.objects.create(nom=nom, login=username,  contact=contact, profil=profil, cni=cni, user_id=user_id,   adressemail=email, photo=photo, datenaiss=datenaiss, zonecouv_id=zonecouv_id, lieunaiss=lieunaiss, lieuresidence=lieuresidence     )
+        savecom=Vendeur.objects.create(nom=nom, login=username,Ville_id=ville_id,Region_id=Region_id, Basedom_id=Basedom_id, contact=contact, profil=profil, cni=cni, user_id=user_id,   adressemail=email, photo=photo, datenaiss=datenaiss, lieunaiss=lieunaiss, lieuresidence=lieuresidence     )
         savecom.save()
-    return render(request, "commercial.html", context)
+    return render(request, "vendeurs.html", context)
 
 
 
@@ -308,17 +365,13 @@ def lignevente(request, idvente):
             produit_id=request.POST.get('idprod')
             qte=request.POST.get('qte')
             prixu=request.POST.get('prixu')
-            remise=request.POST.get('remise')
-            prix_total=request.POST.get('montant')
-            net_payer=request.POST.get('netpayer')
+            net_vente=request.POST.get('netpayer')
             datevente=lavente.datevente
-            saveligne=ligne_vente.objects.create(vente_id_id=vente_id, produit_id=produit_id, qte=qte, prixu=prixu, prix_total=prix_total, datevente=datevente, remise=remise, net_payer=net_payer)
+            saveligne=ligne_vente.objects.create(vente_id=vente_id, produit_id=produit_id, qte=qte, prixu=prixu,  datevente=datevente, net_vente=net_vente)
             saveligne.save()
 
         #Modification de la vente
-            lavente.montant=request.POST.get('p_soustotal')
-            lavente.remise=request.POST.get('p_remise')
-            lavente.net_payer=request.POST.get('p_netapayer')
+            lavente.net_payer=lavente.net_payer
             lavente.save()
             if request.user.is_authenticated:
                 user=request.user
@@ -334,10 +387,11 @@ def lignevente(request, idvente):
 def etatvente(request,idvente):
     lavente=vente.objects.get(id=idvente)
     leslignes=ligne_vente.objects.filter(vente_id=idvente)
-    lepointdevente=pointv.objects.filter(id=lavente.pointv_id)
+    lepointdevente=Client.objects.filter(id=lavente.Client_id)
+    levendeur=Vendeur.objects.get(id=lavente.User_id)
     netenletre=num2words(lavente.net_payer,lang='fr')
     #context=get_invoice(pk)
-    context={'leslignes':leslignes,'lepointdevente':lepointdevente,'lavente':lavente,'netenletre':netenletre}
+    context={'leslignes':leslignes,'lepointdevente':lepointdevente,'lavente':lavente,'netenletre':netenletre, 'levendeur':levendeur}
     template_path = 'etatvente.html'
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="BILAN_VENTE.pdf"'
@@ -366,7 +420,7 @@ def venteparcom(request):
 
 #VENTES PAR POINT DE VENTE
 def venteparpv(request):
-    lespv=pointv.objects.all()
+    lespv=Client.objects.all()
     context={'lespv':lespv}
     return render(request, "venteparpointvente.html", context)
 
@@ -391,7 +445,7 @@ def venteparcat(request):
 def grapheparcom(request):
     #Recuperation du nombre de vente par categorie
     venteparcom= (vente.objects.values('User_id', 'User__first_name').annotate(nombre=Count('User_id')).order_by())
-    venteparpdv= (vente.objects.values('pointv_id', 'pointv__nom').annotate(mont=Sum('net_payer')).order_by())
+    venteparpdv= (vente.objects.values('Client_id', 'Client__nom').annotate(mont=Sum('net_payer')).order_by())
     print(venteparpdv)
     context={'venteparcom':venteparcom, 'venteparpdv':venteparpdv}
     return render (request,'grapheparcom.html',context)
@@ -400,11 +454,6 @@ def grapheparcom(request):
 
 #Nbre de Points de vente visités par vendeur
 def Nbrepvviste(request):
-    nbrevisite=(vente.objects.values('User_id','pointv__nom', 'User__first_name','datevente', 'zonecouv__nom').annotate(nombre=Count('User_id'), somme=Sum('net_payer')).order_by())
+    nbrevisite=(vente.objects.values('User_id','Client__nom', 'User__first_name','datevente', 'Client__Region__libelle').annotate(nombre=Count('User_id'), somme=Sum('net_payer')).order_by())
     context={'nbrevisite':nbrevisite}
     return render(request, 'nbrevisite.html',context)
-
-
-
-
-

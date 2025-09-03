@@ -4,7 +4,7 @@
 {%load static%}
 
 <!--TITRE PAGE-->
-<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Les Commerciaux/Vendeurs:</h5>  <br>            
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Les Vendeurs:</h5>  <br>            
 
 
 <!--FENETRE FLOTTANTE-->
@@ -20,19 +20,35 @@
      
     <div class="modal-content" style="width: 50%;">
       <span class="close">&times;</span>
-      <h5>Création de commercial</h5><br>
+      <h5>Création de Vendeur</h5><br>
       
           <label>Profil *: </label>
           <select name="profil" class="form-control" required>
-                <option> Commercial</option>
+                <option> Vendeur</option>
                 <option> Administrateur</option>
           </select><br>
 
-          <label>Zone de couverture *: </label>
-          <select name="zonecouv"  class="form-control" required>
+          <label>Région *: </label>
+          <select name="region"  class="form-control" required>
             <option> ----------</option>
-            {% for zone in leszones %}
-            <option value="{{zone.id}}">{{zone.nom}}</option>
+            {% for rg in lesregions %}
+            <option value="{{rg.id}}">{{rg.libelle}}</option>
+            {% endfor %}
+          </select><br>
+
+          <label>Ville *: </label>
+          <select name="ville"  class="form-control" required>
+            <option> ----------</option>
+            {% for v in lesvilles %}
+            <option value="{{v.id}}">{{v.libelle}}</option>
+            {% endfor %}
+          </select><br>
+
+           <label>Base DOM *: </label>
+          <select name="basedom"  class="form-control" required>
+            <option> ----------</option>
+            {% for bd in lesbasedom %}
+            <option value="{{bd.id}}">{{bd.libelle}}</option>
             {% endfor %}
           </select><br>
 
@@ -41,8 +57,9 @@
       <label>mot de passe *: </label><input type="password" name="mdp" class="form-control" required ><br>
       <label>Date de Naisssance: </label><input type="date" name="datenaiss" class="form-control" ><br>
       <label>Lieu de Naissance: </label><input type="text" name="lieunaiss" class="form-control" ><br>
-      <label>Lieu de Residence: </label><input type="text" name="lieuresidence" class="form-control" ><br>
-      <label>N° Pièce: </label><input type="text" name="cni" class="form-control" ><br>
+      <label>N° Pièce identité: </label><input type="text" name="cni" class="form-control" ><br>
+
+      <label>Ville: </label><input type="text" name="lieuresidence" class="form-control" ><br>
       <label>Adresse Mail: </label><input type="text" name="adressemail" class="form-control" ><br>
       <label>Contact: </label><input type="text" name="contact" class="form-control" maxlength="10" ><br>
       <label>Photo: </label><input type="file" name="photo" class="form-control" ><br>
@@ -58,40 +75,39 @@
 <!--TABLEAU DE DONNEES-->
 
   <div class="tableinfo" >
-    <table class="table"  >
+    <table class="table table-striped"  >
         
       <tr style="background-color: #f1f1f1;">
         <th><B >N°</B></th>
         <th><B>Date de création </B></th>
         <th><B>Nom</B></th>
         <th><B>Login</B></th>
-        <th><B>Date de Naisssance </B></th>
-        <th><B>Lieu de Naissance </B></th>
-        <th><B>Lieu de Residence </B></th>
-        <th><B>Zone de couverture</B></th>
-        <th><B>N° CNI</B></th>
+        <th><B>Date Naiss.</B></th>
+        <th><B>Lieu Naiss.</B></th>
+        <th><B>Région </B></th>
+        <th><B>Ville</B></th>
+        <th><B>Base Dom</B></th>
         <th ><B>Adresse Mail</B></th>
         <th><B>Contact</B></th>
-        <th><B>Photo</B></th>
         <th ></th>
         <th ><B>Actions</B></th>
   </tr>
 
 
-    {% for com in lescommercio %}
+    {% for vd in lesvendeur %}
     <tr>
-            <th scope="row" >{{com.id}}</th>
-            <th scope="row" >{{com.datecreation}}</th>
-            <td>{{com.nom}}</td>
-            <td>{{com.login}}</td>
-            <td>{{com.datenaiss}}</td>
-            <td>{{com.lieunaiss}}</td>
-            <td>{{com.lieuresidence}}</td>
-            <td>{{com.zonecouv.nom}}</td>
-            <td>{{com.cni}}</td>
-            <td>{{com.adressemail}}</td>
-            <td>{{com.contact}}</td>
-            <td><img src="{{com.photo.path}}", width=20 height=20></img></td>
+            <th scope="row" >{{vd.id}}</th>
+            <th scope="row" >{{vd.datecreation}}</th>
+            <td>{{vd.nom}}</td>
+            <td>{{vd.login}}</td>
+            <td>{{vd.datenaiss}}</td>
+            <td>{{vd.lieunaiss}}</td>
+            <td>{{vd.Region.libelle}}</td>
+            <td>{{vd.Ville.libelle}}</td>
+            <td>{{vd.Basedom.libelle}}</td>
+            <td>{{vd.adressemail}}</td>
+            <td>{{vd.contact}}</td>
+            <td><img src="{{vd.photo.path}}", width=20 height=20></img></td>
             
             
             

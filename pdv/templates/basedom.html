@@ -4,7 +4,7 @@
 {%load static%}
 
 <!--TITRE PAGE-->
-<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Zones de couvertures:</h5>  <br>            
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Bases Dom:</h5>  <br>            
 
 
 <!--FENETRE FLOTTANTE-->
@@ -20,9 +20,24 @@
      
     <div class="modal-content" style="width: 20%;">
       <span class="close">&times;</span>
-      <h5>Création de zone de couverture</h5><br>
+      <h5>Création de Base Dom</h5><br>
 
-      <label>Nom *: </label><input type="text" name="nom" class="form-control" required><br>
+          <label>Région *: </label>
+          <select name="region"  class="form-control" required>
+            <option> ----------</option>
+            {% for rg in lesregions %}
+            <option value="{{rg.id}}">{{rg.libelle}}</option>
+            {% endfor %}
+          </select><br>
+
+          <label>Ville *: </label>
+          <select name="ville"  class="form-control" required>
+            <option> ----------</option>
+            {% for v in lesvilles %}
+            <option value="{{v.id}}">{{v.libelle}}</option>
+            {% endfor %}
+          </select><br>
+      <label>Nom *: </label><input type="text" name="libelle" class="form-control" required><br>
       
       <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
 
@@ -39,19 +54,16 @@
         
       <tr style="background-color: #f1f1f1;">
         <th><B >N°</B></th>
-        <th><B>Date de création </B></th>
-        <th><B>Nom</B></th>
-
+        <th><B>Base Dom</B></th>
         <th ></th>
         <th ><B>Actions</B></th>
   </tr>
 
 
-    {% for zone in leszones %}
+    {% for bd in lesbasedom %}
     <tr>
-            <th scope="row" >{{zone.id}}</th>
-            <th scope="row" >{{zone.datecreation}}</th>
-            <td>{{zone.nom}}</td>
+            <th scope="row" >{{bd.id}}</th>
+            <td>{{bd.libelle}}</td>
             
         <!--Boutton voir details-->
            

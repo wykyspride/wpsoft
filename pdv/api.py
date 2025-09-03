@@ -1,5 +1,5 @@
 from .serializers import apicatparmarqueserializer, api_detaail_produit_serializer, api_detaail_pointvente_serializer, apivente_serializer, apilignev_serializer,apiventeparvendeur_serializer
-from .models import cat_prod, produit, pointv
+from .models import cat_prod, produit, Client
 from rest_framework import viewsets
 
 #API les categorie par marque

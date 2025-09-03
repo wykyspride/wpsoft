@@ -22,25 +22,9 @@
           </select><br>
 
           <!--LES DETAILS DU PRODUIT CHOISI-->
-          <label>Marque: </label><input type="text" name="nom" id="marque" class="form-control" disabled ><br>
-          <label>Catégorie: </label><input type="text" name="nom" id="cat" class="form-control" disabled><br>
-          <label>Prix Unitaire: </label><input type="number" name="prixu" id="prixu"  class="form-control" ><br>
-          <label>Qte stock : </label><input type="text" name="qtestock" id="qtestock"   class="form-control" disabled><br>
-          <label>Qte seuil : </label><input type="text" name="seuil" id="seuil" class="form-control" disabled ><br>
-          <label>Couleur : </label><textarea type="text" name="couleur" id="couleur" class="form-control" disabled ></textarea><br>
-
-
-          <!--LES DETAILS DE VENTE-->
-        <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Details de vente:</h5>        
-          <label>Date: </label><input type="type" name="datev" id="datev" class="form-control" placeholder="{{lavente.datevente}}"><br> 
-          <div style="display: none;"><label>Ancien Total: </label><input type="number" name="old_total" id="old_total" class="form-control" value="{{lavente.montant}}"><br></div> 
-          <div style="display: none;"><label>Ancien Remise: </label><input type="number" name="old_remise" id="old_remise" class="form-control" value="{{lavente.remise}}"><br> </div>
-          <div style="display: none;"><label>Ancien Net à payer: </label><input type="number" name="old_np" id="old_netpayer" class="form-control" value="{{lavente.net_payer}}"><br> </div>
-
-          <label>Qte : </label><input type="number" name="qte" id="qte" class="form-control" oninput="calcultoto()" required><br>
-          <label>Montant Total : </label><input type="number" name="montant" id="montant" class="form-control" readonly><br>
-          <label>Remise : </label><input type="number" name="remise"  id="remise" class="form-control" oninput="calcultoto() " value="0" ><br>
-          <label>Net à payer : </label><input type="number" name="netpayer" id="netpayer" class="form-control" readonly ><br>
+            <label>Prix Unitaire: </label><input type="number" name="prixu" id="prixu"  class="form-control" ><br>
+            <label>Qte : </label><input type="number" name="qte" id="qte" class="form-control" oninput="calcultoto()" required><br>
+            <label>Net à payer : </label><input type="number" name="netpayer" id="netpayer" class="form-control" readonly ><br>
 
 
          <div align="right" style="margin-right: 5%;">
@@ -59,8 +43,8 @@
         <!--TABLEAU RECAPITULATIF-->
         <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Tableau recapitulatif:</h5> 
                         
-<div class="tableinfo" >
-                        <table class="table" id="table_details"   >
+<div class="tableinfo"  >
+                        <table class="table-light" id="table_details" style="width: 100%;" >
                             <tr style="background-color: #dcd8d8;">
                                 <th ><B>N°</B></th>
                                 <th ><B>Description</B></th>
@@ -68,8 +52,6 @@
                                 <th ><B>Catégorie</B></th>
                                 <th ><B>Qte</B></th>
                                 <th ><B>Prix U</B></th>
-                                <th ><B>Montant</B></th>
-                                <th ><B>Remise</B></th>
                                 <th ><B>Net à Payer</B></th>
                                 <th ></th>
 
@@ -85,12 +67,10 @@
                                 <th scope="row"><B>{{ligne.id}}</B></th>
                                 <td >{{ligne.produit.nom}}</td>
                                 <td >{{ligne.produit.marque.libelle}}</td>
-                                <td >{{ligne.produit.cat.libelle}}</td>
+                                <td >{{ligne.produit.cat_prod.libelle}}</td>
                                 <td >{{ligne.qte}}</td>
                                 <td >{{ligne.prixu}}</td>
-                                <td >{{ligne.prix_total}}</td>
-                                <td >{{ligne.remise}}</td>
-                                <td >{{ligne.net_payer}}</td>
+                                <td >{{ligne.net_vente}}</td>
 
 
                                 
@@ -107,18 +87,18 @@
                             {% endfor %}
 
                          </table>
-</div>
+</div><br>
 
 
 
                   <!--Bloc 2 des details devis-->
             <div class="c2" align="right">
                 <div class="divinfosup" style="width: 40%; " align="left" >
-                    <div >
+                    <div style="display: none;" >
                         <label >Sous Total :</label><input name="p_soustotal" class="form-control" type="number" id="p_soustotal" style="text-align: right;" placeholder="{{lavente.montant}}" readonly />
                     </div>
 
-                    <div>
+                    <div style="display: none;" >
                         <label>Total Remise:</label><input name="p_remise" type="number" class="form-control" id="p_remise" placeholder="{{lavente.remise}}" style="text-align: right;" readonly/>
                     </div>
 
@@ -132,6 +112,19 @@
                 <div align="Right" style="margin-top: 10px; margin-right: 40px;"><a href="/etatvente/{{lavente.id}}" class="btn btn-primary" type="submit" style="background-color: rgb(17, 59, 59);">Valider</a></div>
 
             </div><!--Fin Bloc 2 des details proprietaire-->
+
+          <div style=" display: none;"><label>Marque: </label><input type="text" name="nom" id="marque" class="form-control" disabled ><br>
+          <label>Catégorie: </label><input type="text" name="nom" id="cat" class="form-control" disabled><br>
+          <label>Qte stock : </label><input type="text" name="qtestock" id="qtestock"   class="form-control" disabled><br>
+          <label>Qte seuil : </label><input type="text" name="seuil" id="seuil" class="form-control" disabled ><br>
+          <label>Couleur : </label><textarea type="text" name="couleur" id="couleur" class="form-control" disabled ></textarea><br></div>
+
+
+          <!--LES DETAILS DE VENTE-->
+        <!--<h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Details de vente:</h5>  -->      
+          <div style="display: none;"><label>Ancien Total: </label><input type="number" name="old_total" id="old_total" class="form-control" value="{{lavente.montant}}"><br></div> 
+          <div style="display: none;"><label>Ancien Remise: </label><input type="number" name="old_remise" id="old_remise" class="form-control" value="{{lavente.remise}}"><br> </div>
+          <div style="display: none;"><label>Ancien Net à payer: </label><input type="number" name="old_np" id="old_netpayer" class="form-control" value="{{lavente.net_payer}}"><br> </div>
 
       </div>
 

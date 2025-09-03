@@ -80,7 +80,7 @@
           type: 'line',
           data: {
             //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            labels:[{% for m in venteparpdv %} '{{m.pointv__nom}}', {% endfor %}],
+            labels:[{% for m in venteparpdv %} '{{m.Client__nom}}', {% endfor %}],
             datasets: [{
               label: '# Ventes par commercial',
               //data: [12, 19, 3, 5, 2, 3],
@@ -184,7 +184,7 @@
           type: 'line',
           data: {
             //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            labels:[{% for m in venteparpdv %} '{{m.pointv__nom}}', {% endfor %}],
+            labels:[{% for m in venteparpdv %} '{{m.Client__nom}}', {% endfor %}],
             datasets: [{
               label: '# Ventes par commercial',
               //data: [12, 19, 3, 5, 2, 3],

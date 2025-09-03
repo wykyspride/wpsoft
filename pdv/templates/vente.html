@@ -1,0 +1,150 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Les Vendeurs:</h5>  <br>            
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date de création </B></th>
+        <th><B>Nom</B></th>
+        <th><B>Login</B></th>
+
+        <th ></th>
+        <th ><B>Actions</B></th>
+  </tr>
+
+
+    {% for vd in lesvendeur %}
+    <tr>
+            <th scope="row" >{{vd.id}}</th>
+            <th scope="row" >{{vd.datecreation}}</th>
+            <td>{{vd.nom}}</td>
+            <td>{{vd.login}}</td>
+
+            <td><img src="{{vd.photo.path}}", width=20 height=20></img></td>
+            
+            
+            
+        <!--Boutton voir details-->
+           
+
+            <td>
+              <a href=""  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+<!--FENETRE FLOTTANTE-->
+
+  <!-- Fenêtre flottante -->
+   
+<form method="POST">
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" >
+     
+    <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h5>Création de Vendeur</h5><br>
+
+          <div class="bloc_champs">
+            <!--Bloc 1 des details proprietaire-->
+                <div class="c1">
+
+                    <div class="divchampsperso"  >  
+                        
+                        <label>Etat :</label>
+                        <select name="etat" id="etat" >
+                            <option disabled selected>---------------</option>
+                            <option value="VENTE" >VENTE</option>
+                            <option value="PAS VENTE" >PAS VENTE </option>
+                        </select><br>
+
+
+                        <label>Le client :</label>
+                        <select name="idpv" id="idpv"  onclick="insererChampspv()">
+                            <option disabled selected>---------------</option>
+                            {% for cli in lesclients %}
+                            <option value="{{cli.id}}" > {{cli.nom}} </option>
+                            {% endfor %}
+                        </select><br>
+
+
+                        <label>Catégorie Prestataire :</label>
+                        <select name="idcatpres" id="idcatpres"  onclick="insererChampspv()">
+                            <option disabled selected>---------------</option>
+                            {% for cp in lescatpres %}
+                            <option value="{{cp.id}}" > {{cp.libelle}} </option>
+                            {% endfor %}
+                        </select><br>
+
+                        <div>                                      
+                                <input type="Date" name="datev" id="datev"  placeholder="Date: " class="modal" ><br>
+                                <input type="number" name="kmsdebut" id="kmsdebut"  placeholder="kms debut: " class="form-control"><br>
+                                <input type="number" name="kmsfin" id="kmsfin"  placeholder="kms fin: " class="form-control" ><br>
+                                <input type="number" name="nbreJtravail" id="nbreJtravail"  placeholder="Nbre Jours travail: " class="form-control" ><br>
+                                <input type="number" name="objectifvisite" id="objectifvisite"  placeholder="objectif visite: " class="form-control" ><br>
+                                <input type="number" name="visiterealise" id="visiterealise"  placeholder="Visite réalisée: " class="form-control"><br>
+                                <input type="number" name="visiteplanifie" id="visiteplanifie"  placeholder="Visite planifiée: " class="form-control" ><br>
+                                <input type="number" name="pdvreussit" id="pdvreussit"  placeholder="Pdv reussit: " class="form-control" >
+                                
+                        </div><br>
+                       
+                    </div>
+
+            </div><!--Fin Bloc 1 des details proprietaire-->
+
+            <!--Bloc 2 des details proprietaire-->
+            <div class="c2">
+                <div class="divinfosup">
+                    <div>
+                        <input type="number" name="nbremoyskupdv" id="nbremoyskupdv"  placeholder="Nbre moyen sku pdv: " class="form-control" ><br><br>
+                        <input type="number" name="objectifvente" id="objectifvente"  placeholder="Objectif vente: " class="form-control" ><br><br>
+                        <input type="number" name="venterealise" id="venterealise"  placeholder="Vente réalisée: " class="form-control" ><br><br>
+                        <input type="number" name="nbrebso" id="nbrebso"  placeholder="Nbre bso: " class="form-control" ><br><br>
+                        <textarea type="text" name="commentaire"  placeholder="Commentaire:" style="width: 97%;"></textarea> <br> <br>     
+                        <input type="text" name="region" id="region" placeholder="Région:" disabled  ><br><br>
+                        <input type="text" name="basedom" id="basedom" placeholder="Base DOM:" disabled ><br><br>
+                        <input type="text" name="ville"  id="ville" disabled placeholder="Ville:" disabled><br>
+                    </div><br>
+                    
+                </div><br>
+            </div><!--Fin Bloc 2 des details proprietaire-->
+
+      </div>
+            <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+  </div>
+
+</form>
+
+
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+
+{%endblock%}
+

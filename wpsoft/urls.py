@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path,include
-from pdv.views import apiventeparvendeur,Nbrepvviste,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, zonecouve,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,typepointvente,pointdevente,marqueprod,catprod, prod, apicatparmarque, commerciaux, apidetailprod, apidetailpoitv, lignevente
+from pdv.views import adclient,basedom,adcatpresta,region,adclient,apiventeparvendeur,Nbrepvviste,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, adville,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,region,marqueprod,catprod, prod, apicatparmarque, vendeurs, apidetailprod, apidetailpoitv, lignevente
 from django.conf import settings
 from django.conf.urls.static import static
 from pdv.api import apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset,apiventeparvendeur_viewset
@@ -28,6 +28,8 @@ urlpatterns = [
     path('apivente/',apivente, name="apivente"),
     path('apilignev/',apilignev, name="apilignev"),
     path('apiventeparvendeur/',apiventeparvendeur, name="apiventeparvendeur"),
+    path('adclient/',adclient, name="adclient"),
+    path('basedom/',basedom, name="basedom"),
 
 
     #path('apicatparmarque', include(router.urls)),
@@ -36,15 +38,15 @@ urlpatterns = [
     path('maquette', maquette, name="maquette"),
     path('espaceuser/<int:iduser>',espaceuser, name="espaceuser"),
     path('adtypepoint', adtypepoint, name="adtypepoint"),
-    path('typepointvente', typepointvente, name="typepointvente"),
-    path('pointdevente', pointdevente, name="pointdevente"),
+    path('adville', adville, name="adville"),
+    path('region', region, name="region"),
     path('marqueprod', marqueprod,name="marqueprod"),
+    path('adcatpresta', adcatpresta,name="adcatpresta"),
     path('catprod', catprod,name="catprod"),
     path('prod', prod, name="prod"),
-    path('commercial', commerciaux, name="commercial"),
+    path('vendeurs', vendeurs, name="vendeurs"),
     path('lignevente/<int:idvente>', lignevente, name="lignevente"),
     path('deconex',deconex,name='deconex'),# Deconnexion de l'utilisateur
-    path('zonecouve',zonecouve, name="zonecouve"),
     path('etatvente/<int:idvente>', etatvente, name="etatvente"),
     path('stativente',stativente, name="stativente"),
     path('venteparcom',venteparcom, name="venteparcom"),

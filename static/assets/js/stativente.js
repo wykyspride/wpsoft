@@ -8,7 +8,7 @@ function viderchamps(){
 function ventepriodique() {
     const debu=new Date(document.getElementById('du').value);
     const fin =new Date(document.getElementById('au').value);
-    let a=fetch("https://wykys.pythonanywhere.com/apivente/")
+    let a=fetch("http://127.0.0.1:8000/apivente/")
         a.then((response) => {return response.json();})
         .then((ventes) => {
 
@@ -26,11 +26,9 @@ function ventepriodique() {
             ligne.insertCell(0).textContent = vent.id;
             ligne.insertCell(1).textContent = vent.datevente;
             ligne.insertCell(2).textContent = vent.user_name;
-            ligne.insertCell(3).textContent = vent.pointv_id;
-            ligne.insertCell(4).textContent = vent.montant;
-            ligne.insertCell(5).textContent = vent.remise;
-            ligne.insertCell(6).textContent = vent.net_payer;
-            ligne.insertCell(7).textContent = vent.commentaire;
+            ligne.insertCell(3).textContent = vent.Client_id;
+            ligne.insertCell(4).textContent = vent.net_payer;
+            ligne.insertCell(5).textContent = vent.commentaire;
         
     });
       }
@@ -40,7 +38,7 @@ function ventepriodique() {
 
 function venteparcom(){
     idcom=document.getElementById("idcom").value
-    fetch("https://wykys.pythonanywhere.com/apivente/")
+    fetch("http://127.0.0.1:8000/apivente/")
     .then((response) => {return response.json();})
         .then((ventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -51,11 +49,9 @@ function venteparcom(){
             ligne.insertCell(0).textContent = vent.id;
             ligne.insertCell(1).textContent = vent.datevente;
             ligne.insertCell(2).textContent = vent.user_name;
-            ligne.insertCell(3).textContent = vent.pointv_id;
-            ligne.insertCell(4).textContent = vent.montant;
-            ligne.insertCell(5).textContent = vent.remise;
-            ligne.insertCell(6).textContent = vent.net_payer;
-            ligne.insertCell(7).textContent = vent.commentaire;
+            ligne.insertCell(3).textContent = vent.Client_id;
+            ligne.insertCell(4).textContent = vent.net_payer;
+            ligne.insertCell(5).textContent = vent.commentaire;
             }
         
         });
@@ -66,22 +62,20 @@ function venteparcom(){
 
 function venteparpv(){
     idpointv=document.getElementById("idpv").value
-    fetch("https://wykys.pythonanywhere.com/apivente/")
+    fetch("http://127.0.0.1:8000/apivente/")
     .then((response) => {return response.json();})
         .then((ventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
         table_details.innerHTML='';
         ventes.forEach(vent => {
-            if (vent.idpointv == idpointv){
+            if (vent.idclient == idpointv){
             const ligne = table_details.insertRow();
             ligne.insertCell(0).textContent = vent.id;
             ligne.insertCell(1).textContent = vent.datevente;
             ligne.insertCell(2).textContent = vent.user_name;
-            ligne.insertCell(3).textContent = vent.pointv_id;
-            ligne.insertCell(4).textContent = vent.montant;
-            ligne.insertCell(5).textContent = vent.remise;
-            ligne.insertCell(6).textContent = vent.net_payer;
-            ligne.insertCell(7).textContent = vent.commentaire;
+            ligne.insertCell(3).textContent = vent.Client_id;
+            ligne.insertCell(4).textContent = vent.net_payer;
+            ligne.insertCell(5).textContent = vent.commentaire;
             }
         
         });
@@ -91,7 +85,7 @@ function venteparpv(){
 
 function venteparmarque(){
     idm=document.getElementById("idmaque").value
-    fetch("https://wykys.pythonanywhere.com/apilignev/")
+    fetch("http://127.0.0.1:8000/apilignev/")
     .then((response) => {return response.json();})
         .then((lventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -108,9 +102,7 @@ function venteparmarque(){
             ligne.insertCell(6).textContent = lvent.lacat;
             ligne.insertCell(7).textContent = lvent.prixu;
             ligne.insertCell(8).textContent = lvent.qte;
-            ligne.insertCell(9).textContent = lvent.prix_total;
-            ligne.insertCell(10).textContent = lvent.remise;
-            ligne.insertCell(11).textContent = lvent.net_payer;
+            ligne.insertCell(9).textContent = lvent.net_payer;
 
             }
         
@@ -122,7 +114,7 @@ function venteparmarque(){
 
 function venteparcat(){
     idc=document.getElementById("idcate").value
-    fetch("https://wykys.pythonanywhere.com/apilignev/")
+    fetch("http://127.0.0.1:8000/apilignev/")
     .then((response) => {return response.json();})
         .then((lventes) => {
         const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
@@ -139,9 +131,7 @@ function venteparcat(){
             ligne.insertCell(6).textContent = lvent.lacat;
             ligne.insertCell(7).textContent = lvent.prixu;
             ligne.insertCell(8).textContent = lvent.qte;
-            ligne.insertCell(9).textContent = lvent.prix_total;
-            ligne.insertCell(10).textContent = lvent.remise;
-            ligne.insertCell(11).textContent = lvent.net_payer;
+            ligne.insertCell(9).textContent = lvent.net_vente;
 
             }
         

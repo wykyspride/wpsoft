@@ -4,7 +4,7 @@
      function insererChampsprod() {
          /*Recuperation de l'api des données*/
         idpro=document.getElementById('idprod').value;
-        prod=fetch("https://wykys.pythonanywhere.com/apidetailprod").then((response) => {
+        prod=fetch("http://127.0.0.1:8000/apidetailprod").then((response) => {
         return response.json();}).then((produit) => {
         for ( const prod of produit) {
              /*Expression de la condition necessaire pour afficher les données dans les champs*/
@@ -26,21 +26,13 @@
      function insererChampspv() {
          /*Recuperation de l'api des données*/
         idpv=document.getElementById('idpv').value;
-        pointv=fetch("https://wykys.pythonanywhere.com/apidetailpoitv").then((response) => {
+        pointv=fetch("http://127.0.0.1:8000/apidetailpoitv").then((response) => {
         return response.json();}).then((pointvente) => {
         for ( const pointv of pointvente) {
              /*Expression de la condition necessaire pour afficher les données dans les champs*/
              if (pointv.id == idpv) {
-               document.getElementById("nompv").value=pointv.nom;
-               document.getElementById("proprietaire").value=pointv.proprietaire;
-               document.getElementById("contact_pro").value=pointv.contact_pro;
-               document.getElementById("gerant").value=pointv.gerant;
-               document.getElementById("contact_gerant").value=pointv.contact_gerant;
-               document.getElementById("ville").value=pointv.ville;
-               document.getElementById("commune").value=pointv.commune;
-               document.getElementById("quartier").value=pointv.quartier;
-               document.getElementById("gps").value=pointv.gps;
-               document.getElementById("zonecouv").value=pointv.zonecouv_id;
+               document.getElementById("region").value=pointv.Region_id;
+
                 }
                 }
         });
@@ -88,25 +80,20 @@
         /**  ANCIENNES DONNEES TOTALES DE LA  VENTE */
 
         let old_total=parseFloat (document.getElementById("old_total").value);
-        let old_remise=parseFloat (document.getElementById("old_remise").value);
         
         /**  TOTAL LIGNE  VENTE */
         let qte= parseFloat ( document.getElementById("qte").value);
         let prixu= parseFloat ( document.getElementById("prixu").value);
-        let rm=parseFloat ( document.getElementById("remise").value);
         let mttc=parseFloat (qte)* parseFloat (prixu);
-        let np=parseFloat(mttc)- parseFloat(rm);
+        let np=parseFloat(mttc)
 
-        document.getElementById("montant").value=parseFloat(mttc);
         document.getElementById("netpayer").value=parseFloat(np);
 
         /** GRAND TOTAL VENTE */
         let totalvente=old_total+np;
-        let totalremise=old_remise+rm;
-        let totalnp=totalvente-totalremise;
+        let totalnp=totalvente;
 
         document.getElementById("p_soustotal").value=parseFloat(totalvente);
-        document.getElementById("p_remise").value=parseFloat(totalremise);
         document.getElementById("p_netapayer").value=parseFloat(totalnp);
 
 
@@ -130,7 +117,7 @@
                 //table_details.deleteRow(0);}
 
 
-      lavente=fetch("https://wykys.pythonanywhere.com/apiventeparvendeur").then((response) => {
+      lavente=fetch("http://127.0.0.1:8000/apiventeparvendeur").then((response) => {
       //lavente=fetch("http://127.0.0.1:8000/apiventeparvendeur").then((response) => {
 
         return response.json();}).then((lesventes) => {
@@ -142,8 +129,8 @@
 
             ligne.insertCell(0).textContent = lavente.datevente;
             ligne.insertCell(1).textContent = lavente.User__first_name;
-            ligne.insertCell(2).textContent = lavente.zonecouv__nom;
-            ligne.insertCell(3).textContent = lavente.pointv__nom;
+            ligne.insertCell(2).textContent = lavente.Client__Region__libelle;
+            ligne.insertCell(3).textContent = lavente.Client__nom;
             ligne.insertCell(4).textContent = lavente.nombre;
             ligne.insertCell(5).textContent = lavente.achateff;
             ligne.insertCell(6).textContent = lavente.somme;

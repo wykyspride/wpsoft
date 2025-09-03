@@ -11,66 +11,15 @@
 <!-- Bouton pour ouvrir la fenêtre -->
 
   <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
-  <!-- Fenêtre flottante -->
-   <!--FENETRE FLOTTANTE-->
-<form method="POST">
-  {% csrf_token%}
-
-  <div id="myModal" class="modal" >
-      <div class="modal-content" style="width: 50%;">
-      <span class="close">&times;</span>
-      <h4>Création de vente</h4><br>
-
-      <h5 style="margin-left: 2%; color: #6e1855; font-family:'Trebuchet MS';">Détail du point de vente:</h5>          
-       <label>Le point de vente :</label>
-      <select name="idpv" id="idpv"  onclick="insererChampspv()">
-        <option >---------------</option>
-        {% for pv in lespv %}
-        <option value="{{pv.id}}" > {{pv.nom}} </option>
-        {% endfor %}
-      </select><br>
-
-          <!--LES DETAILS DU POINT DE VENTE CHOISI-->
-          <label>Zone de couverture: </label><input type="text" name="zonecouv" id="zonecouv" class="form-control" ><br>
-          <label>Nom du point de vente: </label><input type="text" name="nompv" id="nompv" class="form-control" disabled><br>
-          <label>Proprietaire: </label><input type="text" name="proprietaire" id="proprietaire" class="form-control" disabled><br>
-          <label>Contact Pro: </label><input type="text" name="contact_pro" id="contact_pro" class="form-control" disabled ><br>
-          <label>Gérant: </label><input type="text" name="gerant"  id="gerant" disabled><br>
-          <label>Contact Gérant: </label><input type="text" name="contact_gerant" id="contact_gerant" class="form-control" disabled ><br>
-          <label>Ville: </label><input type="text" name="ville" class="form-control" id="ville" disabled ><br>
-          <label>Commune: </label><input type="text" name="commune" id="commune" class="form-control" disabled><br>
-          <label>Quartier: </label><input type="text" name="quartier" id="quartier" class="form-control" disabled ><br>
-          <label>GPS: </label><input type="text" name="gps" id="gps" class="form-control" disabled><br>
-          
-          <label>Date: </label><input type="Date" name="datev" id="datev" class="form-control" ><br> 
-          <label>Commentaire: </label><textarea type="text" name="commentaire" class="form-control" ></textarea><br>
-
-          <label>Etat :</label>
-          <select name="etat" id="etat">
-            <option >---------------</option>
-            <option value="VENTE" >VENTE</option>
-            <option value="PAS VENTE" >PAS VENTE </option>
-
-      </select><br>
-
-      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
-
-      </div>
-
-  </div>
-</form>
-
-<!--TABLEAU DE DONNEES-->
+  <!--TABLEAU DE DONNEES-->
 
   <div class="tableinfo" >
-    <table class="table"  >
+    <table class="table table-striped"  >
         
       <tr style="background-color: #f1f1f1;">
         <th><B >N°</B></th>
         <th><B>Date </B></th>
         <th><B>Point de vente</B></th>
-        <th><B>Montant</B></th>
-        <th><B>Remise</B></th>
         <th ><B>Net à Payer</B></th>
         <th ><B>Observation</B></th>
         <th ><B>Etat</B></th>
@@ -85,9 +34,7 @@
     <tr>
             <th scope="row" >{{mavente.id}}</th>
             <td>{{mavente.datevente}}</td>
-            <td>{{mavente.pointv.nom}}</td>
-            <th>{{mavente.montant}}</th>
-            <th>{{mavente.remise}}</th>
+            <td>{{mavente.Client.nom}}</td>
             <td>{{mavente.net_payer}}</td>
             <td>{{mavente.commentaire}}</td>
             <td>{{mavente.etat}}</td>
@@ -123,6 +70,85 @@
       {% endfor %}
     </table>
   </div>
+
+   <!--FENETRE FLOTTANTE-->
+   
+<form method="POST">
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" >
+     
+    <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h5>Création de Vente</h5><br>
+
+          <div class="bloc_champs">
+            <!--Bloc 1 des details proprietaire-->
+                <div class="c1">
+
+                    <div class="divchampsperso"  >  
+                        
+                        <label>Etat :</label>
+                        <select name="etat" id="etat" >
+                            <option disabled selected>---------------</option>
+                            <option value="VENTE" >VENTE</option>
+                            <option value="PAS VENTE" >PAS VENTE </option>
+                        </select><br>
+
+
+                        <label>Le client :</label>
+                        <select name="Client_id" id="idpv"  onclick="insererChampspv()">
+                            <option disabled selected>---------------</option>
+                            {% for cli in lesclients %}
+                            <option value="{{cli.id}}" > {{cli.nom}} </option>
+                            {% endfor %}
+                        </select><br>
+
+
+                        <label>Catégorie Prestataire :</label>
+                        <select name="Catpresta_id" id="idcatpres"  onclick="insererChampspv()">
+                            <option disabled selected>---------------</option>
+                            {% for cp in lescatpres %}
+                            <option value="{{cp.id}}" > {{cp.libelle}} </option>
+                            {% endfor %}
+                        </select><br>
+
+                        <div>                                      
+                                <input type="Date" name="datevente" id="datev"  placeholder="Date: " class="form-control" ><br>
+                                <input type="number" name="nbreJtravail" id="nbreJtravail"  placeholder="Nbre Jours travail: " class="form-control" ><br>
+                                <input type="number" name="objectifvisite" id="objectifvisite"  placeholder="objectif visite: " class="form-control" ><br>
+                                <input type="number" name="visiterealise" id="visiterealise"  placeholder="Visite réalisée: " class="form-control"><br>
+                                <input type="number" name="visiteplanifie" id="visiteplanifie"  placeholder="Visite planifiée: " class="form-control" ><br>
+                                <input type="number" name="pdvreussit" id="pdvreussit"  placeholder="Pdv reussit: " class="form-control" >
+                                
+                        </div><br>
+                       
+                    </div>
+
+            </div><!--Fin Bloc 1 des details proprietaire-->
+
+            <!--Bloc 2 des details proprietaire-->
+            <div class="c2">
+                <div class="divinfosup">
+                    <div>
+                        <input type="number" name="nbremoyskupdv" id="nbremoyskupdv"  placeholder="Nbre moyen sku pdv: " class="form-control" ><br><br>
+                        <input type="number" name="objectifvente" id="objectifvente"  placeholder="Objectif vente: " class="form-control" ><br><br>
+                        <input type="number" name="venterealise" id="venterealise"  placeholder="Vente réalisée: " class="form-control" ><br><br>
+                        <input type="number" name="nbrebso" id="nbrebso"  placeholder="Nbre bso: " class="form-control" ><br><br>
+                        <textarea type="text" name="commentaire"  placeholder="Commentaire:" style="width: 97%;"></textarea> <br> <br>     
+                        <input type="text" name="region" id="region" placeholder="Région:" disabled ><br><br>
+                    </div><br>
+                    
+                </div><br>
+            </div><!--Fin Bloc 2 des details proprietaire-->
+
+      </div>
+            <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+  </div>
+
+</form>
+
 
     <!--Scripts pour afficher la fenetre de saisie flottante-->
   <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>

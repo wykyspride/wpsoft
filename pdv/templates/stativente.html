@@ -9,8 +9,8 @@
 
 
 <!-- Bouton pour ouvrir la fenêtre -->
-<label>Du : </label><input type="date" name="du" id="du" class="form-control" onchange=ventepriodique() style="width: 45%;">
-<label>Au : </label><input type="date" name="au" id="au" class="form-control" onchange=ventepriodique() style="width: 45%;"><br>
+<label>Du : </label><input type="date" name="du" id="du" class="form-control-3" onchange=ventepriodique()>
+<label>Au : </label><input type="date" name="au" id="au" class="form-control-3" onchange=ventepriodique()><br>
 
    <!--FENETRE FLOTTANTE-->
 
@@ -18,15 +18,13 @@
 <!--TABLEAU DE DONNEES-->
 
   <div class="tableinfo" >
-    <table class="table" id="table_details"  >
+    <table class="table table-striped" id="table_details"  >
         <thead>
       <tr style="background-color: #f1f1f1;">
         <th><B >N°</B></th>
         <th><B>Date </B></th>
-        <th><B>Commercial </B></th>
+        <th><B>Vendeur </B></th>
         <th><B>Point de vente</B></th>
-        <th><B>Montant</B></th>
-        <th><B>Remise</B></th>
         <th ><B>Net à Payer</B></th>
         <th ><B>Observation</B></th>
   </tr>  
