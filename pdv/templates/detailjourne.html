@@ -4,13 +4,13 @@
 {%load static%}
 
 <!--TITRE PAGE-->
-<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mon portefeuil de visites-ventes:</h5><br><br>            
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mes visites-ventes pour la journée du:</h5><br><br>            
 
 
 
 <!-- Bouton pour ouvrir la fenêtre -->
 
-  <!--<div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>-->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
   <!--TABLEAU DE DONNEES-->
 
   <div class="tableinfo" >
@@ -89,7 +89,7 @@
                     <div class="divchampsperso"  >  
                         
                         <label>Etat :</label>
-                        <select name="etat" id="etat" >
+                        <select name="etat" id="etat"  onclick="getLocation()" >
                             <option disabled selected>---------------</option>
                             <option value="VENTE" >VENTE</option>
                             <option value="PAS VENTE" >PAS VENTE </option>
@@ -97,7 +97,7 @@
 
 
                         <label>Le client :</label>
-                        <select name="Client_id" id="idpv"  onclick="insererChampspv()">
+                        <select name="Client_id" id="idpv"  onclick="insererChampspv(), getLocation()">
                             <option disabled selected>---------------</option>
                             {% for cli in lesclients %}
                             <option value="{{cli.id}}" > {{cli.nom}} </option>
@@ -115,11 +115,10 @@
 
                         <div>                                      
                                 <input type="Date" name="datevente" id="datev"  placeholder="Date: " class="form-control" ><br>
-                                <input type="number" name="nbreJtravail" id="nbreJtravail"  placeholder="Nbre Jours travail: " class="form-control" ><br>
                                 <input type="number" name="objectifvisite" id="objectifvisite"  placeholder="objectif visite: " class="form-control" ><br>
                                 <input type="number" name="visiterealise" id="visiterealise"  placeholder="Visite réalisée: " class="form-control"><br>
                                 <input type="number" name="visiteplanifie" id="visiteplanifie"  placeholder="Visite planifiée: " class="form-control" ><br>
-                                <input type="number" name="pdvreussit" id="pdvreussit"  placeholder="Pdv reussit: " class="form-control" >
+                                <input type="number" name="pdvreussit" id="pdvreussit"  placeholder="Pdv reussit: " class="form-control">
                                 
                         </div><br>
                        
@@ -137,6 +136,13 @@
                         <input type="number" name="nbrebso" id="nbrebso"  placeholder="Nbre bso: " class="form-control" ><br><br>
                         <textarea type="text" name="commentaire"  placeholder="Commentaire:" style="width: 97%;"></textarea> <br> <br>     
                         <input type="text" name="region" id="region" placeholder="Région:" disabled ><br><br>
+                        <input type="text" name="gps" id="gps" placeholder="Géolocalisation:" hidden ><br><br>
+                        
+                        <div style="display: none;">
+                        <input type="text" name="gpsx" id="gpsx" placeholder="Lattitude:" hidden ><br><br>
+                        <input type="text" name="gpsy" id="gpsy" placeholder="Longitude:" hidden ><br><br>
+                        </div>
+
                     </div><br>
                     
                 </div><br>
@@ -153,6 +159,7 @@
     <!--Scripts pour afficher la fenetre de saisie flottante-->
   <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
   <script src="{% static 'assets/js/vente.js' %}"></script>
+  <script src="{% static 'assets/js/recup_gps.js' %}"></script>
 
 
 {%endblock%}

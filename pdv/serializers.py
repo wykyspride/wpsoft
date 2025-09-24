@@ -35,8 +35,15 @@ class apilignev_serializer(serializers.ModelSerializer):
         model=ligne_vente
         fields='__all__'
 
-#API ventes par vendeur
+#API ventes par vendeur 
 class apiventeparvendeur_serializer(serializers.ModelSerializer):
+    class Meta:
+        model=vente
+        fields='__all__'
+
+
+#API ventes apikpiterritoire
+class apikpiterritoire_serializer(serializers.ModelSerializer):
     class Meta:
         model=vente
         fields='__all__'

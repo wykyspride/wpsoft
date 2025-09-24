@@ -1,0 +1,41 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">TERRITORY KPI's:</h5><br><br>            
+
+
+
+<!-- Bouton pour ouvrir la fenêtre -->
+<label>Du : </label><input type="date" name="du" id="du" class="form-control-3" onchange=kpiterritoire()>
+<label>Au : </label><input type="date" name="au" id="au" class="form-control-3" onchange=kpiterritoire()><br><br>
+
+   <!--FENETRE FLOTTANTE-->
+
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table table-striped" id="table_details"  >
+        <thead>
+      <tr style="background-color: #f1f1f1;">
+        <th><B>TERRITORY KPI's </B></th>
+        <th><B>Objectifs </B></th>
+        <th><B>Réalisés </B></th>
+        <th><B>Taux de réalisation</B></th>
+        
+  </tr>  
+  </thead>  
+    <tbody>
+    <!-- lignes dynamiques ici -->
+  </tbody>
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/kpiteritoire.js' %}"></script>
+
+{%endblock%}
+

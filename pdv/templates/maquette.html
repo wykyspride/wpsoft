@@ -33,8 +33,8 @@
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     
                      </ul>
-                        <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Recherche">
+                        <form class="d-flex" role="search" method="get" >
+                        <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Recherche" name="zonerecherche" >
                         <button class="btn btn-outline-success" type="submit" style="color: aliceblue; border-color: aliceblue;">Rechercher</button>
                         <a><img src="{% static 'assets/img/logo3A.png'%}" alt="" style="width: 100px;"></a>
 
@@ -66,14 +66,15 @@
                             
                             <li><a href="#">Visites-ventes</a>
                                 <ul>
-                                    
+                                    <li><a href="/Adjourne/{{user.id}}">Journées</a></li>
                                     <li><a href="/espaceuser/{{user.id}}">Visites-Ventes</a></li>
                                   <li><a href="{% url 'adclient' %}">Clients</a></li>
-                                  <li><a href="/advente/{{user.id}}">Clients</a></li>
 
                                </ul>
                             </li>
                             
+                            <!--Module Administrateur-->
+                            {% if user.is_staff %}
                             <li><a href="#">Administration</a>
                                 <ul>
                                     <li><a href="{% url 'prod' %}">Produits</a></li>
@@ -87,6 +88,7 @@
                                     <li><a href="{% url 'basedom' %}" >Base DOM</a></li>
                                 </ul>
                             </li>
+                            {% endif %}
 
                             <li><a href="#">Statistiques</a>
                                 <ul>
@@ -96,6 +98,7 @@
                                 <li><a href="{% url 'venteparmarque'%}">Ventes par marque</a></li>
                                 <!--<li><a href="{% url 'venteparcat'%}">Ventes par catégorie</a></li>-->
                                 <li><a href="{% url 'Nbrepvviste'%}">Nbre de vente par vendeur</a></li>
+                                <li><a href="{% url 'kpiterritoire' %}">KPI Territoire</a></li>
 
 
                                 </ul>

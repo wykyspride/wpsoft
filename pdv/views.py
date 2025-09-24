@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import  vente,Client,marque_prod, cat_prod, produit, Vendeur,vente,ligne_vente, Region,Ville,Basedom,Catpresta
+from .models import  Journe,vente,Client,marque_prod, cat_prod, produit, Vendeur,vente,ligne_vente, Region,Ville,Basedom,Catpresta
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
@@ -12,7 +12,7 @@ import json
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 import requests
-
+from datetime import date, datetime
 # Page d'accueil
 def home(request):
     return render (request, 'index.html')
@@ -40,7 +40,7 @@ def conex(request):
                 
                 #Redirection vers la page superadmin selon qu'il soit designé comme superadmin
                 if user.is_authenticated:
-                    return redirect('espaceuser',iduser=user.id)
+                    return redirect('Adjourne',iduser=user.id)
                 
                 #Redirection vers la page staff selon qu'il soit designé comme un memebre du staff
                 #if user.is_authenticated and user.is_staff:
@@ -109,9 +109,17 @@ def espaceuser(request, iduser):
         lesclients=Client.objects.all()
         lesprod=produit.objects.all()
         lescatpres=Catpresta.objects.all()
-        mesventes=vente.objects.filter(User_id=iduser)
-        context={'lesclients':lesclients, 'mesventes' : mesventes, "lesprod":lesprod, 'lescatpres':lescatpres }
+        recherche=request.GET.get('zonerecherche')
 
+        if recherche:
+            #mesventes=vente.objects.filter(Q(etat__icontains=recherche) | Q(commentaire__icontains=recherche),User_id=iduser)
+            #mesventes=vente.objects.filter(User_id=iduser and (Q(etat__icontains=recherche) | Q(commentaire__icontains=recherche)))
+            mesventes=vente.objects.filter(User_id=iduser and (Q(Client__nom__icontains=recherche) | Q(commentaire__icontains=recherche)))
+
+        else:
+            mesventes=vente.objects.filter(User_id=iduser)
+        context={'lesclients':lesclients, 'mesventes' : mesventes, "lesprod":lesprod, 'lescatpres':lescatpres }
+        
         if request.method =="POST":
             net_payer=request.POST.get('venterealise')
             commentaire=request.POST.get('commentaire')
@@ -137,7 +145,24 @@ def espaceuser(request, iduser):
     return render(request, "espaceuser.html", context)
 
 
+#JOURNEE
+def Adjourne(request, iduser):
+    if request.user.is_authenticated:
+        mesjournes=Journe.objects.filter(User_id=iduser)
+        context={'mesjournes':mesjournes}
+        if request.method=="POST":
+            datejoune=datetime.now()
+            etat="EN COURS"
+            ventejourne=0
+            visiterealise=0
+            objectifjourne=request.POST.get('objectifjourne')
+            visiteplanifie=request.POST.get('visiteplanifie')
+            commentaire=request.POST.get('commentaire')
+            User_id=iduser
 
+            savejourne=Journe.objects.create(visiteplanifie=visiteplanifie,User_id=User_id, commentaire=commentaire, datejoune=datejoune, etat=etat, objectifjourne=objectifjourne, ventejourne=ventejourne, visiterealise=visiterealise   )
+            savejourne.save()
+    return render (request, 'journe.html', context)
 
 #VILLE
 def adtypepoint(request):
@@ -154,6 +179,48 @@ def adville(request):
         saveville=Ville.objects.create(libelle=libelle, Region_id=idregion)
         saveville.save()
     return render(request, 'ville.html', context)
+
+
+
+#Espace User
+def detailjourne(request, idjourne):
+    if request.user.is_authenticated:
+        iduser=request.user.id
+        lesclients=Client.objects.all()
+        lesprod=produit.objects.all()
+        lescatpres=Catpresta.objects.all()
+        mesventes=vente.objects.filter(Journe_id=idjourne)
+
+        context={'lesclients':lesclients, 'mesventes' : mesventes, "lesprod":lesprod, 'lescatpres':lescatpres }
+        
+        if request.method =="POST":
+            net_payer=request.POST.get('venterealise')
+            commentaire=request.POST.get('commentaire')
+            datevente=request.POST.get('datevente')
+            etat=request.POST.get('etat')
+            objectifvisite=request.POST.get('objectifvisite')
+            visiterealise=request.POST.get('visiterealise')
+            visiteplanifie=request.POST.get('visiteplanifie')
+            pdvreussit=request.POST.get('pdvreussit')
+            nbremoyskupdv=request.POST.get('nbremoyskupdv')
+            objectifvente=request.POST.get('objectifvente')
+            venterealise=request.POST.get('venterealise')
+            nbrebso=request.POST.get('nbrebso')
+            Catpresta_id=request.POST.get('Catpresta_id')
+            Client_id=request.POST.get('Client_id')
+            User_id=iduser
+            Journe_id=idjourne
+            gps=request.POST.get("gps")
+            gpsx=request.POST.get("gpsx")
+            gpsy=request.POST.get("gpsy")
+
+            savevente=vente.objects.create(gps=gps, gpsx=gpsx, gpsy=gpsy, Journe_id=Journe_id, User_id=User_id,Client_id=Client_id,Catpresta_id=Catpresta_id,nbrebso=nbrebso,venterealise=venterealise,objectifvente=objectifvente,nbremoyskupdv=nbremoyskupdv,pdvreussit=pdvreussit, visiteplanifie=visiteplanifie, net_payer=net_payer, commentaire=commentaire,datevente=datevente, etat=etat, objectifvisite=objectifvisite, visiterealise=visiterealise)
+            savevente.save() 
+    else:
+        print("Veuillez vous connecter")
+        return redirect(conex)
+    return render(request, "detailjourne.html", context)
+
 
 
 #CLENTS
@@ -175,9 +242,11 @@ def adclient(request):
         commune=request.POST.get("commune")
         quartier=request.POST.get("quartier")
         gps=request.POST.get("gps")
+        gpsx=request.POST.get("gpsx")
+        gpsy=request.POST.get("gpsy")
+
         commentaire=request.POST.get("commentaire")
-        datecreation=request.POST.get("datecreation")
-        savepv=Client.objects.create(type_pv_id=type_pv_id, Region_id=Region_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville_id=ville_id, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
+        savepv=Client.objects.create(gpsx=gpsx , gpsy=gpsy,type_pv_id=type_pv_id, Region_id=Region_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville_id=ville_id, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
         savepv.save()
     return render(request, "pointdevente.html",context)
 
@@ -238,7 +307,6 @@ def prod(request):
         prixu=request.POST.get("prixu")
         qte=request.POST.get("qte")
         seuil=request.POST.get("seuil")
-        couleur=request.POST.get("couleur")
         description=request.POST.get("description")
         saveprod=produit.objects.create(marque_id=marque, cat_prod_id=cat, nom=nom, prixu=prixu, qte=qte, seuil=seuil, description=description)
         saveprod.save()
@@ -302,7 +370,7 @@ def apilignev(request):
     data=ligne_vente.objects.all()
     datalist=[]
     for i in data:
-        datalist.append({'id':i.id, "vente_id":i.vente_id,  "marque_id":i.produit_id, "lacat":i.produit.cat_prod.libelle, "lamarc":i.produit.marque.libelle, "pointvente":i.vente.Client.nom,"qte":i.qte, "prixu":i.prixu , "datevente":i.datevente, "produit_id":i.produit.nom, "net_payer":i.net_vente, "comm":i.vente.User.first_name})
+        datalist.append({'id':i.id, "vente_id":i.vente_id,  "marque_id":i.produit.marque.id, "lacat":i.produit.cat_prod.libelle, "lamarc":i.produit.marque.libelle, "pointvente":i.vente.Client.nom,"qte":i.qte, "prixu":i.prixu , "datevente":i.datevente, "produit_id":i.produit.nom, "net_payer":i.net_vente, "comm":i.vente.User.first_name})
     return JsonResponse(datalist, safe=False)
 
 
@@ -375,7 +443,7 @@ def lignevente(request, idvente):
             lavente.save()
             if request.user.is_authenticated:
                 user=request.user
-                return redirect (espaceuser, user.id )
+                #return redirect (detailjourne, user.id )
         return render (request, 'lignevente.html', context)
     else:
         user=request.user
@@ -389,6 +457,7 @@ def etatvente(request,idvente):
     leslignes=ligne_vente.objects.filter(vente_id=idvente)
     lepointdevente=Client.objects.filter(id=lavente.Client_id)
     levendeur=Vendeur.objects.get(id=lavente.User_id)
+    print(levendeur)
     netenletre=num2words(lavente.net_payer,lang='fr')
     #context=get_invoice(pk)
     context={'leslignes':leslignes,'lepointdevente':lepointdevente,'lavente':lavente,'netenletre':netenletre, 'levendeur':levendeur}
@@ -457,3 +526,18 @@ def Nbrepvviste(request):
     nbrevisite=(vente.objects.values('User_id','Client__nom', 'User__first_name','datevente', 'Client__Region__libelle').annotate(nombre=Count('User_id'), somme=Sum('net_payer')).order_by())
     context={'nbrevisite':nbrevisite}
     return render(request, 'nbrevisite.html',context)
+
+
+
+#API DE RECUPERATION DES VENTE 
+    #API
+def apikpiterritoire(request):
+    data=vente.objects.all()
+    datalist=[]
+    for i in data:
+        datalist.append({'visiterealise':i.visiterealise,'visiteplanifie':i.visiteplanifie,'id':i.id, "user_id":i.User_id,"user_name":i.User.first_name, "datevente":i.datevente , "etat":i.etat, "Catpresta_id":i.Catpresta_id,  "net_payer":i.net_payer,  "commentaire":i.commentaire,  "Client_id":i.Client.nom, "idclient":i.Client_id})
+    return JsonResponse(datalist, safe=False)
+
+#KPI TERRITOIRE
+def kpiterritoire(request):
+    return render(request, 'kpiteritoire.html')

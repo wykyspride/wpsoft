@@ -1,0 +1,100 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mes journées de travail:</h5>  <br>            
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >N°</B></th>
+        <th><B>Date</B></th>
+        <th><B>Vendeur</B></th>
+        <th><B>Visites Plannifiées</B></th>
+        <th><B>Visites Réalisées</B></th>
+        <th><B>Ojectifs Ventes</B></th>
+        <th><B>Ventes Réalisées</B></th>
+        <th><B>Observation</B></th>
+
+        <th ></th>
+        <th ></th>
+        <th ><B>Actions</B></th>
+  </tr>
+
+
+    {% for j in mesjournes %}
+    <tr>
+            <th scope="row" >{{j.id}}</th>
+            <th scope="row" >{{j.datejoune}}</th>
+            <td>{{j.User.first_name}}</td>
+            <td>{{j.visiteplanifie}}</td>
+            <td>{{j.visiterealise}}</td>
+            <td>{{j.objectifjourne}}</td>
+            <td>{{j.ventejourne}}</td>
+            <td>{{j.commentaire}}</td>
+
+            
+        <!--Boutton voir details-->
+            <td >  
+              <a href="/detailjourne/{{j.id}}" title="Voir les details">
+                <svg id="i-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" >
+                <circle cx="17" cy="15" r="1" />
+                <circle cx="16" cy="16" r="6" />
+                <path d="M2 16 C2 16 7 6 16 6 25 6 30 16 30 16 30 16 25 26 16 26 7 26 2 16 2 16 Z" />
+                </svg>
+              </a>
+            </td>
+
+            <td>
+              <a href=""  title="Modifier">
+                <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+            </td>
+
+        
+     
+            <td  title="Supprimer">
+              <a href="#" ><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  >
+              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+              </svg></a>
+            </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+<!--FENETRE FLOTTANTE-->
+   
+<form method="POST">
+    {% csrf_token %}
+
+  <div id="myModal" class="modal" >
+     
+    <div class="modal-content" style="width: 50%;">
+      <span class="close">&times;</span>
+      <h5>Création de journée</h5><br>
+      <label>Objectif Journée *: </label><input type="text" name="objectifjourne" class="form-control" required><br>
+      <label>Visites plannifiées *: </label><input type="text" name="visiteplanifie" class="form-control" required ><br>
+      <label>Commentaire: </label><textarea type="text" name="commentaire"  class="form-control"></textarea><br>
+      <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
+
+      </div>
+
+  </div>
+
+</form>
+
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+
+{%endblock%}
+

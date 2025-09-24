@@ -50,7 +50,10 @@
       <label>Commune *: </label><input type="text" name="commune" class="form-control" required><br>
       <label>Quartier *: </label><input type="text" name="quartier" class="form-control" required><br>
       <label>GPS *: </label><input type="text" name="gps" id="gps" class="form-control" onfocus="getLocation()" required><br>
-
+      <div style="display: none;">
+      <input type="text" name="gpsx" id="gpsx" placeholder="Lattitude:" disabled ><br><br>
+      <input type="text" name="gpsy" id="gpsy" placeholder="Longitude:" disabled ><br><br>
+      </div>
       <label>Commentaire: </label><textarea type="text" name="commentaire" class="form-control" ></textarea><br>
 
       <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>

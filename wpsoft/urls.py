@@ -1,10 +1,10 @@
 
 from django.contrib import admin
 from django.urls import path,include
-from pdv.views import adclient,basedom,adcatpresta,region,adclient,apiventeparvendeur,Nbrepvviste,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, adville,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,region,marqueprod,catprod, prod, apicatparmarque, vendeurs, apidetailprod, apidetailpoitv, lignevente
+from pdv.views import Adjourne,detailjourne,apikpiterritoire,kpiterritoire,adclient,basedom,adcatpresta,region,adclient,apiventeparvendeur,Nbrepvviste,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, adville,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,region,marqueprod,catprod, prod, apicatparmarque, vendeurs, apidetailprod, apidetailpoitv, lignevente
 from django.conf import settings
 from django.conf.urls.static import static
-from pdv.api import apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset,apiventeparvendeur_viewset
+from pdv.api import apikpiterritoire_viewset,apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset,apiventeparvendeur_viewset
 from rest_framework.routers import DefaultRouter 
 
 
@@ -16,6 +16,7 @@ router.register(r'apidetailpoitv',api_details_pointvente_viewset,basename='apide
 router.register(r'apivente',apivente_viewset,basename='apivente')
 router.register(r'apilignev',apilignev_viewset,basename='apilignev')
 router.register(r'apiventeparvendeur',apiventeparvendeur_viewset,basename='apiventeparvendeur')
+router.register(r'apikpiterritoire',apikpiterritoire_viewset,basename='apikpiterritoire')
 
 
 urlpatterns = [
@@ -30,13 +31,17 @@ urlpatterns = [
     path('apiventeparvendeur/',apiventeparvendeur, name="apiventeparvendeur"),
     path('adclient/',adclient, name="adclient"),
     path('basedom/',basedom, name="basedom"),
+    path('kpiterritoire/',kpiterritoire, name="kpiterritoire"),
+    path('apikpiterritoire/',apikpiterritoire, name="apikpiterritoire"),
 
 
     #path('apicatparmarque', include(router.urls)),
 
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')) ,   
     path('maquette', maquette, name="maquette"),
+    path('Adjourne/<int:iduser>',Adjourne, name="Adjourne"),
     path('espaceuser/<int:iduser>',espaceuser, name="espaceuser"),
+    path('detailjourne/<int:idjourne>',detailjourne, name="detailjourne"),
     path('adtypepoint', adtypepoint, name="adtypepoint"),
     path('adville', adville, name="adville"),
     path('region', region, name="region"),

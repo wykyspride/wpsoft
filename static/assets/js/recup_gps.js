@@ -8,6 +8,9 @@
         var lon = position.coords.latitude;
         var gps=lat+ ";"+lon;
          document.getElementById("gps").value = gps;
+         document.getElementById("gpsx").value = lat;
+         document.getElementById("gpsy").value = lon;
+
         });
       } else {
         alert("La géolocalisation n'est pas supportée.");

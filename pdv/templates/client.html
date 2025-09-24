@@ -23,7 +23,7 @@
       <h5>Création de Client</h5><br>
 
           <label>Région *: </label>
-          <select name="region"  class="form-control" required>
+          <select name="region"  class="form-control" required onclick="getLocation()">
             <option> ----------</option>
             {% for rg in lesregions %}
             <option value="{{rg.id}}">{{rg.libelle}}</option>
@@ -31,7 +31,7 @@
           </select><br>
 
           <label>Ville *: </label>
-          <select name="ville"  class="form-control" required>
+          <select name="ville"  class="form-control" required onclick="getLocation()">
             <option> ----------</option>
             {% for v in lesvilles %}
             <option value="{{v.id}}">{{v.libelle}}</option>
@@ -45,7 +45,12 @@
       <label>Gérant: </label><input type="text" name="gerant" class="form-control" ><br>
       <label>Contact Gérant: </label><input type="text" name="contactgerant" class="form-control" ><br>
       <label>Commentaire: </label><textarea type="text" name="commentaire"  class="form-control"></textarea><br>
-
+      <input type="text" name="gps" id="gps" placeholder="Géolocalisation:" hidden ><br><br>
+                        
+      <div style="display: none;">
+      <input type="text" name="gpsx" id="gpsx" placeholder="Lattitude:" hidden ><br><br>
+      <input type="text" name="gpsy" id="gpsy" placeholder="Longitude:" hidden ><br><br>
+      </div>
       <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
 
       </div>
@@ -109,6 +114,7 @@
 
     <!--Scripts pour afficher la fenetre de saisie flottante-->
   <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+  <script src="{% static 'assets/js/recup_gps.js' %}"></script>
 
 {%endblock%}
 

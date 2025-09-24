@@ -59,6 +59,9 @@ class Client(models.Model):
     gerant=models.CharField(default="", max_length=200, null=True)
     contact_gerant=models.CharField(default="", max_length=200, null=True)
     commentaire=models.CharField(default="", max_length=200)
+    gps=models.CharField(default="", max_length=200)
+    gpsx=models.CharField(default="", max_length=200)
+    gpsy=models.CharField(default="", max_length=200)
     datecreation=models.DateTimeField(default=datetime.now, blank=True)
 
 # CATEGORIE PRESTATAIRE
@@ -99,17 +102,31 @@ class produit(models.Model):
 
     def _str_(self):
         return self.nom
+    
+
+#JOURNEE
+class Journe(models.Model):
+    User=models.ForeignKey(User, on_delete=models.CASCADE)
+    commentaire=models.CharField(default="", max_length=200, null=True)
+    datejoune=models.DateTimeField(default=datetime.now, blank=True)
+    etat=models.CharField(default="", max_length=20, blank=False )
+    objectifjourne=models.IntegerField(default=0, null=True)
+    ventejourne=models.IntegerField(default=0, null=True)
+    visiterealise=models.IntegerField(default=0, null=True)
+    visiteplanifie=models.IntegerField(default=0, null=True)
+
+
 
 #VISITES VENTE
 class vente(models.Model):
     User=models.ForeignKey(User, on_delete=models.CASCADE)
+    Journe=models.ForeignKey(Journe, on_delete=models.CASCADE, default=0)
     Catpresta=models.ForeignKey(Catpresta, on_delete=models.CASCADE)
     Client=models.ForeignKey(Client, on_delete=models.CASCADE)
     net_payer=models.BigIntegerField(default=0, )
     commentaire=models.CharField(default="", max_length=200)
     datevente=models.DateTimeField(default=datetime.now, blank=True)
     etat=models.CharField(default="", max_length=20, blank=False )
-    nbreJtravail=models.IntegerField(default=0, null=True)
     objectifvisite=models.IntegerField(default=0, null=True)
     visiterealise=models.IntegerField(default=0, null=True)
     visiteplanifie=models.IntegerField(default=0, null=True)
@@ -118,7 +135,9 @@ class vente(models.Model):
     objectifvente=models.IntegerField(default=0, null=True)
     venterealise=models.IntegerField(default=0, null=True)
     nbrebso=models.IntegerField(default=0, null=True)
-
+    gps=models.CharField(default="", max_length=200)
+    gpsx=models.CharField(default="", max_length=200)
+    gpsy=models.CharField(default="", max_length=200)
 
 #LIGNE DE VENTE
 class ligne_vente(models.Model):
