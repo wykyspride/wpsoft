@@ -13,7 +13,7 @@
   <div align="Right"><button id="openModal" class="btn btn-success">Nouveau</button></div><br>
   <!-- Fenêtre flottante -->
    
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
   <div id="myModal" class="modal" >
@@ -91,6 +91,8 @@
         <th><B>Contact</B></th>
         <th ></th>
         <th ><B>Actions</B></th>
+        <th ></th>
+
   </tr>
 
 
@@ -107,7 +109,7 @@
             <td>{{vd.Basedom.libelle}}</td>
             <td>{{vd.adressemail}}</td>
             <td>{{vd.contact}}</td>
-            <td><img src="{{vd.photo.path}}", width=20 height=20></img></td>
+            <td><img src="{{vd.photo.url}}", width=20 height=20></img></td>
             
             
             

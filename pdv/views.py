@@ -20,8 +20,12 @@ def home(request):
 def maquette(request):
     if request.user.is_authenticated:
         user=request.user
-        context={'user':user}
-    return render(request, "maquette.html", context)
+        levendeur=Vendeur.objects.all()
+        context={'user':user, 'levendeur':levendeur}
+        return render(request, 'maquette.html', context)
+    else:
+        return render(request, 'maquette.html')
+
 
 # Connexion.
 def conex(request):
@@ -248,7 +252,7 @@ def adclient(request):
         commentaire=request.POST.get("commentaire")
         savepv=Client.objects.create(gpsx=gpsx , gpsy=gpsy,type_pv_id=type_pv_id, Region_id=Region_id, nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant, contact_gerant=contact_gerant, ville_id=ville_id, commune=commune,  quartier=quartier, gps=gps,  commentaire=commentaire )
         savepv.save()
-    return render(request, "pointdevente.html",context)
+    return render(request, "client.html",context)
 
 
 #Marque de prduit
@@ -275,24 +279,7 @@ def catprod(request):
         savecat.save()
     return render(request, "catprod.html", context)
 
-#LES CLIENTS
-def adclient(request):
-    lesclients=Client.objects.all()
-    lesregions=Region.objects.all()
-    lesvilles=Ville.objects.all()
-    context={'lesclients':lesclients, 'lesregions':lesregions, 'lesvilles':lesvilles }
-    if request.method=='POST':
-        nom=request.POST.get('nom')
-        proprietaire=request.POST.get('proprietaire')
-        contact_pro=request.POST.get('contactpro')
-        gerant=request.POST.get('gerant')
-        contact_gerant=request.POST.get('contactgerant')
-        commentaire=request.POST.get('commentaire')
-        Region_id=request.POST.get('region')
-        Ville_id=request.POST.get('ville')
-        saveclient=Client.objects.create(nom=nom, proprietaire=proprietaire, contact_pro=contact_pro, gerant=gerant,  contact_gerant=contact_gerant, commentaire=commentaire, Region_id=Region_id, Ville_id=Ville_id )
-        saveclient.save()
-    return render(request, "client.html", context)
+
 
 #LES PRODUITS
 def prod(request):
@@ -396,7 +383,7 @@ def vendeurs(request):
         ville_id=request.POST.get('ville')
         Basedom_id=request.POST.get('basedom')
         Region_id=request.POST.get('region')
-        photo=request.POST.get('photo')
+        photo=request.FILES.get('photo')
         datenaiss=request.POST.get('datenaiss')
         lieunaiss=request.POST.get('lieunaiss')
         lieuresidence=request.POST.get('lieuresidence')

@@ -3,7 +3,7 @@
     <head>
         {% load static%}
 
-        {% if user %}
+        {% if user.is_authenticated %}
 
         <link  rel="stylesheet" type="text/css" href="{% static 'assets/css/maquette.css'%}" />
         <link  rel="stylesheet" type="text/css" href="{% static 'assets/css/adtypepoint.css'%}" />
@@ -50,7 +50,14 @@
                 <!--photo bloc du menu-->
                 <div name="menu1" class="menu1" align="center"><br>
                     <!--photo du connecté-->
-                    <button style="background-color: aliceblue; border:none;"><img class="btn-floating" src="{% static 'assets/img/logo_n.jpeg'%}" alt="" style="width: 100px; "/></button><br>
+                    
+                    <button style="background-color: aliceblue; border:none;">
+                        {% for v in levendeur %}
+                            {% if v.user_id == user.id %}
+                                <img class="btn-floating" src="{{v.photo.url}}" alt="" style="width: 40px; height: 40px; "></img>
+                            {% endif %}
+                        {% endfor %}
+                    </button><br>
 
                     <ul id="menu-accordeon">
                         <li><a href="#">{{user.username}}</a>
@@ -147,6 +154,7 @@
     </body>
 
     <footer class="footer1">
+        
          <!-- Grid container -->
     <div class="container p-4 pb-0">
         <!-- Section: Social media -->

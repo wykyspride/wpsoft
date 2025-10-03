@@ -68,7 +68,7 @@
      
     <div class="modal-content" style="width: 50%;">
       <span class="close">&times;</span>
-      <h5>Création de Vendeur</h5><br>
+      <h5>Création de Vendeur :</h5><br>
 
           <div class="bloc_champs">
             <!--Bloc 1 des details proprietaire-->
@@ -76,7 +76,7 @@
 
                     <div class="divchampsperso"  >  
                         
-                        <label>Etat :</label>
+                        <label>Etat* :</label>
                         <select name="etat" id="etat" >
                             <option disabled selected>---------------</option>
                             <option value="VENTE" >VENTE</option>
@@ -84,7 +84,7 @@
                         </select><br>
 
 
-                        <label>Le client :</label>
+                        <label>Le client* :</label>
                         <select name="idpv" id="idpv"  onclick="insererChampspv()">
                             <option disabled selected>---------------</option>
                             {% for cli in lesclients %}
@@ -93,7 +93,7 @@
                         </select><br>
 
 
-                        <label>Catégorie Prestataire :</label>
+                        <label>Catégorie Prestataire* :</label>
                         <select name="idcatpres" id="idcatpres"  onclick="insererChampspv()">
                             <option disabled selected>---------------</option>
                             {% for cp in lescatpres %}
