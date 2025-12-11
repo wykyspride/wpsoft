@@ -35,7 +35,7 @@ function ventepriodique() {
     )}
 
 
-
+//VENTE PAR VENDEUR
 function venteparcom(){
     idcom=document.getElementById("idcom").value
     fetch("http://127.0.0.1:8000/apivente/")
@@ -59,7 +59,7 @@ function venteparcom(){
 )}
 
 
-
+//VENTES PAR POINT DE VENTE/client
 function venteparpv(){
     idpointv=document.getElementById("idpv").value
     fetch("http://127.0.0.1:8000/apivente/")
@@ -82,8 +82,9 @@ function venteparpv(){
         }
 )}
 
-
+//VENTES PAR MARQUES
 function venteparmarque(){
+    
     idm=document.getElementById("idmaque").value
     fetch("http://127.0.0.1:8000/apilignev/")
     .then((response) => {return response.json();})
@@ -111,6 +112,7 @@ function venteparmarque(){
 )}
 
 
+//VENTES PAR CATEGORIE
 
 function venteparcat(){
     idc=document.getElementById("idcate").value
@@ -138,3 +140,47 @@ function venteparcat(){
         });
         }
 )}
+
+
+//VENTES GENERALES PAR VENDEUR
+function ventegeneraleparpvendeur() {
+    let debut = new Date(document.getElementById('du').value);
+    let fin = new Date(document.getElementById('au').value);
+    
+    fetch("http://127.0.0.1:8000/apilignev/")
+        .then(response => response.json())
+        .then(ventes => {
+            const table_details = document.getElementById('table_details').getElementsByTagName('tbody')[0];
+            table_details.innerHTML = '';
+
+            // Filtrer les ventes dans la période et avec état "VENTE"
+            const ventesFiltrees = ventes.filter(v => {
+                const dateV = new Date(v.datevente);
+                return dateV >= debut && dateV <= fin && v.etat === "VENTE";
+            });
+
+            // Calculer le total par commande
+            const totalParCommande = ventesFiltrees.reduce((acc, v) => {
+                acc[v.idcomm] = (acc[v.idcomm] || 0) + v.net_payer;
+                return acc;
+            }, {});
+
+            // Afficher dans le tableau
+            for (const idcomm in totalParCommande) {
+                    const ligne = table_details.insertRow();
+                    fetch("http://127.0.0.1:8000/apiuser").then(res => res.json()).then(users => {
+                        users.forEach(us => {
+                       
+                        if (idcomm == us.id) {
+                            ligne.insertCell(0).textContent = us.first_name;
+                            ligne.insertCell(1).textContent = totalParCommande[idcomm].toFixed(2);
+                        }
+                }
+            )
+            }
+        )
+    }
+}
+)
+        .catch(error => console.error("Erreur:", error));
+}

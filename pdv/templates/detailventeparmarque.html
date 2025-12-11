@@ -1,0 +1,55 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Details Ventes par marque de produit:</h5>  <br>            
+
+
+<!--FENETRE FLOTTANTE-->
+
+<!-- Bouton pour ouvrir la fenêtre -->
+  <div align="Right"><button id="openModal" class="btn btn-success">Imprimer</button></div><br>
+  <!-- Fenêtre flottante -->
+   
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table table-striped"  >
+        
+      <tr style="background-color: #f1f1f1;">
+        <th><B >Date</B></th>
+        <th><B>Catégorie</B></th>
+        <th><B>Prix U.</B></th>
+        <th><B>Qte</B></th>
+        <th><B>Montant</B></th>
+        <th><B>Client</B></th>
+        <th><B>Vendeur</B></th>
+
+  </tr>
+
+
+    {% for v in lesventes %}
+    <tr>
+            <th scope="row" >{{v.datevente}}</th>
+            <td>{{v.produit.cat_prod.libelle}}</td>
+            <td>{{v.prixu}}</td>
+            <td>{{v.qte}}</td>
+            <td>{{v.net_vente}}</td>
+            <td>{{v.vente.Client.nom}}</td>
+            <td>{{v.vente.User.first_name}}</td>
+
+        <!--Boutton voir details-->
+           
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
+
+{%endblock%}
+

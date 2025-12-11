@@ -1,10 +1,10 @@
 
 from django.contrib import admin
 from django.urls import path,include
-from pdv.views import Adjourne,detailjourne,apikpiterritoire,kpiterritoire,adclient,basedom,adcatpresta,region,adclient,apiventeparvendeur,Nbrepvviste,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, adville,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,region,marqueprod,catprod, prod, apicatparmarque, vendeurs, apidetailprod, apidetailpoitv, lignevente
+from pdv.views import adcanclient,adcatclient,apiuser,ventegeneraleparvendeur,detailventeparmarque,ventegeneraleparmarque,Adjourne,detailjourne,apikpiterritoire,kpiterritoire,adclient,basedom,adcatpresta,region,adclient,apiventeparvendeur,Nbrepvviste,grapheparcom,home, conex,deconex,venteparcom,venteparpv,venteparmarque,venteparcat, adville,etatvente,stativente, apivente,apilignev, espaceuser,maquette, adtypepoint,region,marqueprod,catprod, prod, apicatparmarque, vendeurs, apidetailprod, apidetailpoitv, lignevente
 from django.conf import settings
 from django.conf.urls.static import static
-from pdv.api import apikpiterritoire_viewset,apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset,apiventeparvendeur_viewset
+from pdv.api import apiuser_viewset, apikpiterritoire_viewset,apicatparmarqueviewset, api_details_pointvente_viewset, api_details_produit_viewset, apivente_viewset, apilignev_viewset,apiventeparvendeur_viewset
 from rest_framework.routers import DefaultRouter 
 
 
@@ -17,11 +17,13 @@ router.register(r'apivente',apivente_viewset,basename='apivente')
 router.register(r'apilignev',apilignev_viewset,basename='apilignev')
 router.register(r'apiventeparvendeur',apiventeparvendeur_viewset,basename='apiventeparvendeur')
 router.register(r'apikpiterritoire',apikpiterritoire_viewset,basename='apikpiterritoire')
+router.register(r'apiuser',apiuser_viewset,basename='apiuser')
 
 
 urlpatterns = [
     path('', conex, name="conex"),
     path('admin/', admin.site.urls),
+    path('apiuser',apiuser, name="apiuser"),
 
     path('apidetailprod',apidetailprod, name="apidetailprod"),
     path('apidetailpoitv',apidetailpoitv, name="apidetailpoitv"),
@@ -33,6 +35,9 @@ urlpatterns = [
     path('basedom/',basedom, name="basedom"),
     path('kpiterritoire/',kpiterritoire, name="kpiterritoire"),
     path('apikpiterritoire/',apikpiterritoire, name="apikpiterritoire"),
+    path('ventegeneraleparmarque/',ventegeneraleparmarque, name="ventegeneraleparmarque"),
+    path('detailventeparmarque/<int:idmarque>',detailventeparmarque, name="detailventeparmarque"),
+    path('ventegeneraleparvendeur/',ventegeneraleparvendeur, name="ventegeneraleparvendeur"),
 
 
     #path('apicatparmarque', include(router.urls)),
@@ -48,11 +53,13 @@ urlpatterns = [
     path('marqueprod', marqueprod,name="marqueprod"),
     path('adcatpresta', adcatpresta,name="adcatpresta"),
     path('catprod', catprod,name="catprod"),
+    path('adcatclient', adcatclient,name="adcatclient"),
+    path('adcanclient', adcanclient,name="adcanclient"),
     path('prod', prod, name="prod"),
     path('vendeurs', vendeurs, name="vendeurs"),
-    path('lignevente/<int:idvente>', lignevente, name="lignevente"),
+    path('lignevente/<int:vente_id>', lignevente, name="lignevente"),
     path('deconex',deconex,name='deconex'),# Deconnexion de l'utilisateur
-    path('etatvente/<int:idvente>', etatvente, name="etatvente"),
+    path('etatvente/<int:vente_id>', etatvente, name="etatvente"),
     path('stativente',stativente, name="stativente"),
     path('venteparcom',venteparcom, name="venteparcom"),
     path('venteparpv',venteparpv, name="venteparpv"),

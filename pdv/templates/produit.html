@@ -31,15 +31,14 @@
       </select><br>
 
       <label>La catégorie *:</label>
-      <select name="idcat" id="idcat" required >
+      <select name="idcat" id="idcat" required oninput="nomarticle()">
         <option >---------------</option>
       </select><br>
-
-      <label>Nom du produit *: </label><input type="text" name="nom" id="nom" class="form-control" required><br>
+      <label>Couleur : </label><input type="text" name="couleur" id="couleur" class="form-control" oninput="nomarticle()" ><br>
+      <label>Nom du produit *: </label><input type="text" name="nom" id="nom" class="form-control" required readonly><br>
       <label>Prix Unitaire *: </label><input type="text" name="prixu"  class="form-control" required><br>
       <label>Qte : </label><input type="number" name="qte"  class="form-control"><br>
       <label>Qte seuil : </label><input type="number" name="seuil" class="form-control" ><br>
-      <label>Couleur : </label><input type="text" name="couleur" class="form-control" ><br>
       <label>Description: </label><textarea type="text" name="description"  class="form-control"></textarea><br>
       <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
 

@@ -9,6 +9,19 @@ class Region (models.Model):
     def _str_(self):
         return self.libelle
 
+# CATEGORIE CLIENT
+class Catcli (models.Model):
+    libelle=models.CharField(default="", max_length=50)
+    datecreation=models.DateTimeField(default=datetime.now, blank=True)
+    def _str_(self):
+        return self.libelle
+
+# CANAL CLIENT
+class Canalcli (models.Model):
+    libelle=models.CharField(default="", max_length=50)
+    datecreation=models.DateTimeField(default=datetime.now, blank=True)
+    def _str_(self):
+        return self.libelle
 
 # VILLE
 class Ville (models.Model):
@@ -30,7 +43,6 @@ class Basedom (models.Model):
 #VENDEUR
 class Vendeur (models.Model):
     nom=models.CharField(default="", max_length=100)
-    Basedom=models.ForeignKey(Basedom, on_delete=models.CASCADE)
     Region=models.ForeignKey(Region, on_delete=models.CASCADE)
     Ville=models.ForeignKey(Ville, on_delete=models.CASCADE)
     contact=models.CharField(default="", max_length=20)
@@ -52,6 +64,8 @@ class Vendeur (models.Model):
 #POINT DE VENTE/CLIENT
 class Client(models.Model):
     Ville=models.ForeignKey(Ville, on_delete=models.CASCADE)
+    Catcli=models.ForeignKey(Catcli, on_delete=models.CASCADE)
+    Canalcli=models.ForeignKey(Canalcli, on_delete=models.CASCADE)
     Region=models.ForeignKey(Region, on_delete=models.CASCADE)
     nom=models.CharField(default="", max_length=200)
     proprietaire=models.CharField(default="", max_length=200)
@@ -70,6 +84,8 @@ class Catpresta (models.Model):
     datecreation=models.DateTimeField(default=datetime.now, blank=True)
     def _str_(self):
         return self.libelle
+    
+
 
 #MARQUE PRODUIT
 class marque_prod(models.Model):
@@ -114,12 +130,13 @@ class Journe(models.Model):
     ventejourne=models.IntegerField(default=0, null=True)
     visiterealise=models.IntegerField(default=0, null=True)
     visiteplanifie=models.IntegerField(default=0, null=True)
-
+    pdvreussit=models.IntegerField(default=0, null=True)
 
 
 #VISITES VENTE
 class vente(models.Model):
     User=models.ForeignKey(User, on_delete=models.CASCADE)
+    Codevente=models.CharField(default="", max_length=20, blank=False )
     Journe=models.ForeignKey(Journe, on_delete=models.CASCADE, default=0)
     Catpresta=models.ForeignKey(Catpresta, on_delete=models.CASCADE)
     Client=models.ForeignKey(Client, on_delete=models.CASCADE)
@@ -127,23 +144,17 @@ class vente(models.Model):
     commentaire=models.CharField(default="", max_length=200)
     datevente=models.DateTimeField(default=datetime.now, blank=True)
     etat=models.CharField(default="", max_length=20, blank=False )
-    objectifvisite=models.IntegerField(default=0, null=True)
-    visiterealise=models.IntegerField(default=0, null=True)
-    visiteplanifie=models.IntegerField(default=0, null=True)
-    pdvreussit=models.IntegerField(default=0, null=True)
-    nbremoyskupdv=models.DecimalField(default=0, null=True,max_digits=10,decimal_places=2)
     objectifvente=models.IntegerField(default=0, null=True)
     venterealise=models.IntegerField(default=0, null=True)
-    nbrebso=models.IntegerField(default=0, null=True)
     gps=models.CharField(default="", max_length=200)
     gpsx=models.CharField(default="", max_length=200)
     gpsy=models.CharField(default="", max_length=200)
 
 #LIGNE DE VENTE
 class ligne_vente(models.Model):
-    vente=models.ForeignKey(vente, on_delete=models.CASCADE) 
     produit=models.ForeignKey(produit, on_delete=models.CASCADE)
     qte=models.BigIntegerField(default=0)
     prixu=models.BigIntegerField(default=0)
     net_vente=models.BigIntegerField(default=0)
     datevente=models.DateTimeField(default=datetime.now, blank=True)
+    vente=models.ForeignKey(vente, on_delete=models.CASCADE)

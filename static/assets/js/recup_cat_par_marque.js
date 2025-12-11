@@ -22,6 +22,17 @@ function recupcats() {
                     option.value = cat_prod.id;
                     option.textContent = cat_prod.libelle;
                     app.appendChild(option);
-                }
+
+                                }
            });
     })}
+
+//LE NOM DE L'ARTICLE
+function nomarticle(){
+    lamarc=document.getElementById('idmarque');
+    nommarc=lamarc.options[lamarc.selectedIndex].text;
+    lacat=document.getElementById("idcat");
+    nomcat=lacat.options[lacat.selectedIndex].text;
+    lacoul=document.getElementById("couleur").value;
+    document.getElementById("nom").value=nommarc +" "+ nomcat+" "+ lacoul;
+}

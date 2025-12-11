@@ -25,11 +25,10 @@ function kpiterritoire() {
                 pourcentage = (totalreal * 100) / totaltplan;
             }
 
-            // Calcul visites réussies
+            // Calcul visites réussies venterealise
             let totalreussi = lesventes.filter(v => v.datevente >= debut && v.datevente <= fin && v.etat === "VENTE").length;
             let totalreussi_real = lesventes.filter(v => v.datevente >= debut && v.datevente <= fin && v.etat === "VENTE").length;
             let pourcentagereussi_real = (totalreussi > 0) ? (totalreussi_real * 100) / totalreussi : 0;
-
             // Fonction utilitaire pour ajouter une ligne
             function ajouterLigne(libelle, val1, val2, val3) {
                 const ligne = table_details.insertRow();
@@ -37,6 +36,7 @@ function kpiterritoire() {
                 ligne.insertCell(1).textContent = val1;
                 ligne.insertCell(2).textContent = val2;
                 ligne.insertCell(3).textContent = val3 + " %";
+
             }
 
             // Insertion des lignes

@@ -1,4 +1,4 @@
-from .serializers import apikpiterritoire_serializer,apicatparmarqueserializer, api_detaail_produit_serializer, api_detaail_pointvente_serializer, apivente_serializer, apilignev_serializer,apiventeparvendeur_serializer
+from .serializers import apiuser_serializer, apikpiterritoire_serializer,apicatparmarqueserializer, api_detaail_produit_serializer, api_detaail_pointvente_serializer, apivente_serializer, apilignev_serializer,apiventeparvendeur_serializer
 from .models import cat_prod, produit, Client
 from rest_framework import viewsets
 
@@ -34,3 +34,8 @@ class apiventeparvendeur_viewset(viewsets.ModelViewSet):
 #API de apikpiterritoire
 class apikpiterritoire_viewset(viewsets.ModelViewSet):
     serializer_class=apikpiterritoire_serializer
+
+
+#API User
+class apiuser_viewset(viewsets.ModelViewSet):
+    serializer_class=apiuser_serializer

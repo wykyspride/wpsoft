@@ -92,17 +92,21 @@
                                     <li><a href="{% url 'vendeurs' %}">Vendeurs</a></li>
                                     <li><a href="{% url 'adville' %}" >Villes</a></li>
                                     <li><a href="{% url 'region' %}" >Régions</a></li>
-                                    <li><a href="{% url 'basedom' %}" >Base DOM</a></li>
+                                    <li><a href="{% url 'adcatclient' %}" >Catégorie Client</a></li>
+                                    <li><a href="{% url 'adcanclient' %}" >Type de Canal</a></li>
                                 </ul>
                             </li>
                             {% endif %}
 
                             <li><a href="#">Statistiques</a>
                                 <ul>
-                                <li><a href="{% url 'stativente' %}">Ventes par période</a></li>
-                                <li><a href="{% url 'venteparcom' %}">Ventes par vendeur</a></li>
-                                <li><a href="{% url 'venteparpv'%}">Ventes par type de PDV</a></li>
-                                <li><a href="{% url 'venteparmarque'%}">Ventes par marque</a></li>
+                                <li><a href="{% url 'stativente' %}">Filtre Ventes par période</a></li>
+                                <li><a href="{% url 'venteparcom' %}">Filtre Ventes par vendeur</a></li>
+                                <li><a href="{% url 'venteparpv'%}">Filtre Ventes par PDV</a></li>
+                                <li><a href="{% url 'venteparmarque'%}">Filtre details Ventes par marque</a></li>
+                                <li><a href="{% url 'ventegeneraleparmarque'%}">Ventes générales par marque</a></li>
+                                <li><a href="{% url 'ventegeneraleparvendeur'%}">Ventes générales par vendeur</a></li>
+
                                 <!--<li><a href="{% url 'venteparcat'%}">Ventes par catégorie</a></li>-->
                                 <li><a href="{% url 'Nbrepvviste'%}">Nbre de vente par vendeur</a></li>
                                 <li><a href="{% url 'kpiterritoire' %}">KPI Territoire</a></li>

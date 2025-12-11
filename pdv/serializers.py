@@ -1,5 +1,5 @@
 from rest_framework import routers, serializers, viewsets
-from pdv.models import cat_prod, produit, Client, vente, ligne_vente
+from pdv.models import cat_prod, produit, Client, vente, ligne_vente, User
 from django.db.models import Count, Sum
 
 
@@ -46,4 +46,10 @@ class apiventeparvendeur_serializer(serializers.ModelSerializer):
 class apikpiterritoire_serializer(serializers.ModelSerializer):
     class Meta:
         model=vente
+        fields='__all__'
+
+#API ventes apikpiterritoire
+class apiuser_serializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
         fields='__all__'

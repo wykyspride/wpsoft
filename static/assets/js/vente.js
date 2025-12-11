@@ -75,31 +75,27 @@
 
 
     /*CALCUL DES TOTAUX */
+function calcultoto() {
+    // TOTAL LIGNE VENTE
+    let qte = parseFloat(document.getElementById("qte").value) || 0;
+    let prixu = parseFloat(document.getElementById("prixu").value) || 0;
 
-    function calcultoto(){
-        /**  ANCIENNES DONNEES TOTALES DE LA  VENTE */
+    let mttc = qte * prixu;
+    let np = mttc;  // déjà un nombre
 
-        let old_total=parseFloat (document.getElementById("old_total").value);
-        
-        /**  TOTAL LIGNE  VENTE */
-        let qte= parseFloat ( document.getElementById("qte").value);
-        let prixu= parseFloat ( document.getElementById("prixu").value);
-        let mttc=parseFloat (qte)* parseFloat (prixu);
-        let np=parseFloat(mttc)
+    let old_netpayer = parseFloat(document.getElementById("old_netpayer").value) || 0;
 
-        document.getElementById("netpayer").value=parseFloat(np);
+    document.getElementById("netpayer").value = np;
+    document.getElementById("venterealise").value = np;
 
-        /** GRAND TOTAL VENTE */
-        let totalvente=old_total+np;
-        let totalnp=totalvente;
+    // GRAND TOTAL VENTE
+    let totalvente = old_netpayer + np;
+    let totalnp = totalvente;
 
-        document.getElementById("p_soustotal").value=parseFloat(totalvente);
-        document.getElementById("p_netapayer").value=parseFloat(totalnp);
+    document.getElementById("p_soustotal").value = totalvente;
+    document.getElementById("p_netapayer").value = totalnp;
+}
 
-
-
-
-    }
 
 
     ///INSERTION DANS LE TABLEAU

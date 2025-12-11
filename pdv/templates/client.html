@@ -22,6 +22,22 @@
       <span class="close">&times;</span>
       <h5>Création de Client</h5><br>
 
+      <label>Catrégorie *: </label>
+          <select name="cat"  class="form-control" required onclick="getLocation()">
+            <option> ----------</option>
+            {% for cc in lescatclient %}
+            <option value="{{cc.id}}">{{cc.libelle}}</option>
+            {% endfor %}
+          </select><br>
+
+          <label>Type de Canal *: </label>
+          <select name="canal"  class="form-control" required onclick="getLocation()">
+            <option> ----------</option>
+            {% for cac in lescanclient %}
+            <option value="{{cac.id}}">{{cac.libelle}}</option>
+            {% endfor %}
+          </select><br>
+
           <label>Région *: </label>
           <select name="region"  class="form-control" required onclick="getLocation()">
             <option> ----------</option>
@@ -33,7 +49,7 @@
           <label>Ville *: </label>
           <select name="ville"  class="form-control" required onclick="getLocation()">
             <option> ----------</option>
-            {% for v in lesvilles %}
+            {% for v in lesville %}
             <option value="{{v.id}}">{{v.libelle}}</option>
             {% endfor %}
           </select><br>
@@ -73,6 +89,7 @@
         <th ><B>Contact Propriétaire</B></th>
         <th><B>Gerant</B></th>
         <th><B>Contact Gerant</B></th>
+        <th><B>Coord. GPS</B></th>
         <th ></th>
         <th ><B>Actions</B></th>
   </tr>
@@ -88,7 +105,8 @@
             <td>{{c.contact_pro}}</td>
             <td>{{c.gerant}}</td>
             <td>{{c.contact_gerant}}</td>
-            
+            <td>{{c.gpsx}} ; {{c.gpsy}}</td>
+
         <!--Boutton voir details-->
            
 

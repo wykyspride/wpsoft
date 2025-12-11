@@ -1,0 +1,36 @@
+
+{% extends 'maquette.html' %}
+{%block contenu%}
+{%load static%}
+
+<!--TITRE PAGE-->
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Visites-ventes Générales par Vendeur :</h5><br><br>            
+
+<label>Du : </label><input type="date" name="du" id="du" class="form-control-3" onchange='ventegeneraleparpvendeur()' >
+<label>Au : </label><input type="date" name="au" id="au" class="form-control-3" onchange='ventegeneraleparpvendeur()' ><br>
+
+  <div align="Right"><button id="openModal" class="btn btn-success" >Imprimer</button></div><br>
+
+<!--TABLEAU DE DONNEES-->
+
+  <div class="tableinfo" >
+    <table class="table" id="table_details"  >
+        <thead>
+      <tr style="background-color: #f1f1f1;">
+        <th><B>Vendeur </B></th>
+        <th><B>Chiffre d'affaire</B></th>
+
+  </tr>  
+  </thead>  
+    <tbody>
+    <!-- lignes dynamiques ici -->
+  </tbody>
+    </table>
+  </div>
+
+    <!--Scripts pour afficher la fenetre de saisie flottante-->
+  <script src="{% static 'assets/js/vente.js' %}"></script>
+  <script src="{% static 'assets/js/stativente.js' %}"></script>
+
+{%endblock%}
+

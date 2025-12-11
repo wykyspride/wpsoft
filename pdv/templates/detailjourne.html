@@ -4,7 +4,7 @@
 {%load static%}
 
 <!--TITRE PAGE-->
-<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mes visites-ventes pour la journée du:</h5><br><br>            
+<br><h5 style="margin-left: 2%; color: rgb(12,44,156); font-family:'Trebuchet MS';">Mes visites-ventes pour la journée du {{majourne.datejoune}}</h5><br><br>            
 
 
 
@@ -26,7 +26,6 @@
 
         <th ></th>
         <th ><B>Actions</B></th>
-        <th ></th>
   </tr>
 
 {% for mavente in mesventes %}
@@ -41,18 +40,10 @@
 
 
         <!--Boutton voir details-->
-            <td >  
-              <a href="lignevente/{{mavente.id}}" title="Voir les details">
-                <svg id="i-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" >
-                <circle cx="17" cy="15" r="1" />
-                <circle cx="16" cy="16" r="6" />
-                <path d="M2 16 C2 16 7 6 16 6 25 6 30 16 30 16 30 16 25 26 16 26 7 26 2 16 2 16 Z" />
-                </svg>
-              </a>
-            </td>
+            
 
             <td>
-              <a href="/lignevente/{{mavente.id}}"  title="Modifier">
+              <a href="/lignevente/{{mavente.id}}"  title="Voir les details">
                 <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                 <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
                 </svg>
@@ -79,86 +70,93 @@
   <div id="myModal" class="modal" >
      
     <div class="modal-content" style="width: 50%;">
-      <span class="close">&times;</span>
-      <h5>Création de Vente</h5><br>
+        <span class="close">&times;</span>
+        <h5 style=" color:  #6e1855; font-family:'Trebuchet MS'">Création de Visite/Vente: </h5><br>
 
           <div class="bloc_champs">
-            <!--Bloc 1 des details proprietaire-->
+            <!--Bloc 1 vente-->
                 <div class="c1">
 
-                    <div class="divchampsperso"  >  
-                        
-                        <label>Etat :</label>
+                    <div class="divchampsperso"  > 
+                        <label>Nature :</label>
                         <select name="etat" id="etat"  onclick="getLocation()" >
                             <option disabled selected>---------------</option>
                             <option value="VENTE" >VENTE</option>
-                            <option value="PAS VENTE" >PAS VENTE </option>
-                        </select><br>
+                            <option value="PROSPECTION" >PROSPECTION </option>
+                            <option value="APPROVISIONNEMENT" >APPROVISIONNEMENT </option>
+                            <option value="RECOUVREMENT" >RECOUVREMENT </option>
+                            <option value="LIVRAISON POUR ENTREPOT" >LIVRAISON POUR ENTREPOT </option>
+                        </select><br><br>
 
+                        <input type="number" name="objectifvente" id="objectifvente"  placeholder="Objectif vente: " class="form-control" ><br>                        
+                          
 
-                        <label>Le client :</label>
+                        <input type="text" name="gpsx" id="gpsx" placeholder="Lattitude:" hidden >
+
+                        <div>                                      
+                                <input type="text" name="region" id="region" placeholder="Région:" disabled hidden>
+
+                        </div>
+                       
+                    </div>
+
+            </div><!--Fin Bloc 1 vente-->
+
+            <!--Bloc 2 vente-->
+            <div class="c2">
+                <div class="divinfosup">
+                    <div>
+                      <label>Le client :</label>
                         <select name="Client_id" id="idpv"  onclick="insererChampspv(), getLocation()">
                             <option disabled selected>---------------</option>
                             {% for cli in lesclients %}
                             <option value="{{cli.id}}" > {{cli.nom}} </option>
                             {% endfor %}
-                        </select><br>
+                        </select><br><br>                       
 
+                        <div style="display: none;"><input type="text" name="gpsy" id="gpsy" placeholder="Longitude:" hidden ></div>
 
-                        <label>Catégorie Prestataire :</label>
+                    </div>
+                    
+                </div>
+            </div><!--Fin Bloc 2 vente-->
+<!--Bloc 2 vente-->
+            <div class="c2">
+                <div class="divinfosup">
+                    <div>
+                      <label>Catégorie vendeur :</label>
                         <select name="Catpresta_id" id="idcatpres"  onclick="insererChampspv()">
                             <option disabled selected>---------------</option>
                             {% for cp in lescatpres %}
                             <option value="{{cp.id}}" > {{cp.libelle}} </option>
                             {% endfor %}
-                        </select><br>
+                        </select>
+                        <textarea type="text" name="commentaire"  placeholder="Commentaire:" style="width: 97%;"></textarea>
 
-                        <div>                                      
-                                <input type="Date" name="datevente" id="datev"  placeholder="Date: " class="form-control" ><br>
-                                <input type="number" name="objectifvisite" id="objectifvisite"  placeholder="objectif visite: " class="form-control" ><br>
-                                <input type="number" name="visiterealise" id="visiterealise"  placeholder="Visite réalisée: " class="form-control"><br>
-                                <input type="number" name="visiteplanifie" id="visiteplanifie"  placeholder="Visite planifiée: " class="form-control" ><br>
-                                <input type="number" name="pdvreussit" id="pdvreussit"  placeholder="Pdv reussit: " class="form-control">
-                                
-                        </div><br>
-                       
-                    </div>
+                        <input type="text" name="gps" id="gps" placeholder="Géolocalisation:" hidden >
+                    </div>  
 
-            </div><!--Fin Bloc 1 des details proprietaire-->
-
-            <!--Bloc 2 des details proprietaire-->
-            <div class="c2">
-                <div class="divinfosup">
-                    <div>
-                        <input type="number" name="nbremoyskupdv" id="nbremoyskupdv"  placeholder="Nbre moyen sku pdv: " class="form-control" ><br><br>
-                        <input type="number" name="objectifvente" id="objectifvente"  placeholder="Objectif vente: " class="form-control" ><br><br>
-                        <input type="number" name="venterealise" id="venterealise"  placeholder="Vente réalisée: " class="form-control" ><br><br>
-                        <input type="number" name="nbrebso" id="nbrebso"  placeholder="Nbre bso: " class="form-control" ><br><br>
-                        <textarea type="text" name="commentaire"  placeholder="Commentaire:" style="width: 97%;"></textarea> <br> <br>     
-                        <input type="text" name="region" id="region" placeholder="Région:" disabled ><br><br>
-                        <input type="text" name="gps" id="gps" placeholder="Géolocalisation:" hidden ><br><br>
-                        
-                        <div style="display: none;">
-                        <input type="text" name="gpsx" id="gpsx" placeholder="Lattitude:" hidden ><br><br>
-                        <input type="text" name="gpsy" id="gpsy" placeholder="Longitude:" hidden ><br><br>
-                        </div>
-
-                    </div><br>
-                    
-                </div><br>
-            </div><!--Fin Bloc 2 des details proprietaire-->
-
+                </div>
+            </div><!--Fin Bloc 2 vente-->
+      
       </div>
-            <div align="Right"><button class="btn btn-success" type="submit">Valider</button></div><br>
 
+         <div align="right" style="margin-right: 5%;">
+            <button title="Valider"  id="click"  class="btn btn-floating" style="background-color: rgb(17, 59, 59); color: #ed1c24;" onclick="insererCellules()">
+            <!--<button title="Inserer dans le tableau" onclick="insererCellules()" id="click" type="submit"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1z"/>
+            <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg>
+            </button>
+          </div>
+
+  </form>
+           
   </div>
-
-</form>
-
 
     <!--Scripts pour afficher la fenetre de saisie flottante-->
   <script src="{% static 'assets/js/fenetre_flottante.js' %}"></script>
-  <script src="{% static 'assets/js/vente.js' %}"></script>
   <script src="{% static 'assets/js/recup_gps.js' %}"></script>
 
 

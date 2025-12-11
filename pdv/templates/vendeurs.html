@@ -44,13 +44,6 @@
             {% endfor %}
           </select><br>
 
-           <label>Base DOM *: </label>
-          <select name="basedom"  class="form-control" required>
-            <option> ----------</option>
-            {% for bd in lesbasedom %}
-            <option value="{{bd.id}}">{{bd.libelle}}</option>
-            {% endfor %}
-          </select><br>
 
       <label>Nom complet *: </label><input type="text" name="nom" class="form-control" required><br>
       <label>Login *: </label><input type="text" name="login" class="form-control" required ><br>
@@ -86,7 +79,6 @@
         <th><B>Lieu Naiss.</B></th>
         <th><B>Région </B></th>
         <th><B>Ville</B></th>
-        <th><B>Base Dom</B></th>
         <th ><B>Adresse Mail</B></th>
         <th><B>Contact</B></th>
         <th ></th>
@@ -106,7 +98,6 @@
             <td>{{vd.lieunaiss}}</td>
             <td>{{vd.Region.libelle}}</td>
             <td>{{vd.Ville.libelle}}</td>
-            <td>{{vd.Basedom.libelle}}</td>
             <td>{{vd.adressemail}}</td>
             <td>{{vd.contact}}</td>
             <td><img src="{{vd.photo.url}}", width=20 height=20></img></td>
